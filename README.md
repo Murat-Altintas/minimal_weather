@@ -1,4 +1,4 @@
-# minimal_weather
+# minimal_weatherapp
 
 A new Flutter project.
 
