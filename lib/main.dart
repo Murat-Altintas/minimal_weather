@@ -33,23 +33,38 @@ class _MyAppState extends State<MyApp> {
                 textAlign: TextAlign.center,
               ),
             ),
-            ElevatedButton(
-                onPressed: () async {
-                  await _apiListFill.apiListFill(_cityTextController.text);
-                  setState(() {
-                    _apiListFill.imageChangeVoid();
-                  });
-                },
-                child: const Text('Search')),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                    onPressed: () async {
+                      await _apiListFill.apiListFill(_cityTextController.text);
+                      setState(() {
+                        _apiListFill.imageChangeVoid();
+                        print(_apiListFill.hourlyyyy.length);
+                      });
+                    },
+                    child: const Text('Search')),
+                ElevatedButton(
+                    onPressed: () async {
+                      await _apiListFill.apiListFill(_cityTextController.text);
+                      setState(() {
+                        _apiListFill.imageChangeVoid();
+                        _apiListFill.hourlyyyy.clear();
+                      });
+                    },
+                    child: const Text('Clean')),
+              ],
+            ),
             Text(_apiListFill.conditionText),
             Expanded(
               flex: 2,
-              child: _apiListFill.hours.isNotEmpty
+              child: _apiListFill.hourlyyyy.isNotEmpty
                   ? ListView.builder(
-                      itemCount: _apiListFill.hours.length,
+                      itemCount: _apiListFill.hourlyyyy.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
-                          leading: Lottie.asset(_apiListFill.hourlyyyy.first, height: 100),
+                          leading: Lottie.asset("${_apiListFill.hourlyyyy[index]}"),
                         );
                       })
                   : const Text("test"),
