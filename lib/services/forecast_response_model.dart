@@ -93,7 +93,6 @@ class Hour {
   double? tempC;
   Condition? condition;
   double? windMph;
-  int? windDegree;
   double? pressureMb;
   int? humidity;
 
@@ -102,7 +101,6 @@ class Hour {
     tempC = json['temp_c'];
     condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
     windMph = json['wind_mph'];
-    windDegree = json['wind_degree'];
     pressureMb = json['pressure_mb'];
     humidity = json['humidity'];
   }

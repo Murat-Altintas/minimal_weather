@@ -36,19 +36,28 @@ dependencies:
   http: ^0.13.4
   lottie: ^1.3.0
   intl: ^0.17.0
+  sizer: ^2.0.15
+  animations: ^2.0.3
+  flutter_staggered_animations: ^1.0.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-
+  flutter_lints: ^2.0.0
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^2.0.0
 
 flutter:
+  fonts:
+    - family: ZonaBold
+      fonts:
+        - asset: assets/fonts/ZonaPro-Bold.otf
+    - family: ZonaLight
+      fonts:
+        - asset: assets/fonts/ZonaPro-Thin.otf
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.

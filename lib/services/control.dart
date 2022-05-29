@@ -1,3 +1,5 @@
+// ignore_for_file: prefer_final_fields
+
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
@@ -6,7 +8,16 @@ class ApiListFill {
   String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
   int imageCode = 0, humidity = 0;
-  List<dynamic> hours = [], hourlyTempC = [], incomingHourlyImageList = [], hourlyImageList = [], nextDaysDate = [], nextDaysMinTempC = [], nextDaysMaxTempC = [];
+  List<dynamic> hours = [],
+      hourlyTempC = [],
+      _incomingHourlyImageList = [],
+      hourlyImageList = [],
+      hourlyHumidityList = [],
+      hourlyPressureMbList = [],
+      nextDaysDate = [],
+      nextDaysMinTempC = [],
+      nextDaysMaxTempC = [],
+      hourlyWindMphList = [];
 
   Future<void> apiListFill(String text) async {
     final response = await dataService.getWeather(text);
@@ -30,7 +41,23 @@ class ApiListFill {
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      incomingHourlyImageList.add(element.condition!.code);
+      _incomingHourlyImageList.add(element.condition!.code);
+    }
+
+    for (var element in response.forecast!.forecastday![0].hour!) {
+      _incomingHourlyImageList.add(element.condition!.code);
+    }
+
+    for (var element in response.forecast!.forecastday![0].hour!) {
+      hourlyHumidityList.add(element.humidity);
+    }
+
+    for (var element in response.forecast!.forecastday![0].hour!) {
+      hourlyWindMphList.add(element.windMph);
+    }
+
+    for (var element in response.forecast!.forecastday![0].hour!) {
+      hourlyPressureMbList.add(element.pressureMb);
     }
 
     for (var element in response.forecast!.forecastday!) {
@@ -41,12 +68,10 @@ class ApiListFill {
 
     for (var element in response.forecast!.forecastday!) {
       nextDaysMinTempC.add(element.day!.mintempC);
-      print(nextDaysMinTempC);
     }
 
     for (var element in response.forecast!.forecastday!) {
       nextDaysMaxTempC.add(element.day!.maxtempC);
-      print(nextDaysMaxTempC);
     }
   }
 
@@ -71,7 +96,7 @@ class ApiListFill {
       },
     );
 
-    for (int element in incomingHourlyImageList) {
+    for (int element in _incomingHourlyImageList) {
       imageListMap.forEach(
         (String key, value) {
           if (value.contains(element)) {
