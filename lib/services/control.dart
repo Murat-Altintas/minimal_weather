@@ -1,11 +1,12 @@
 import 'package:minimal_weatherapp/services/api.dart';
+import 'package:intl/intl.dart';
 
 class ApiListFill {
   DataService dataService = DataService();
-  String region = "", conditionText = "", imageTop = "", hourlyImage = "";
+  String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
   int imageCode = 0, humidity = 0;
-  List<dynamic> hours = [], hourlyTempC = [], hourlyImageList = [], hourlyyyy = [];
+  List<dynamic> hours = [], hourlyTempC = [], incomingHourlyImageList = [], hourlyImageList = [], nextDaysDate = [], nextDaysMinTempC = [], nextDaysMaxTempC = [];
 
   Future<void> apiListFill(String text) async {
     final response = await dataService.getWeather(text);
@@ -19,7 +20,9 @@ class ApiListFill {
     windMph = response.current!.windMph!;
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      hours.add(element.time);
+      var incomingDate = DateTime.parse(element.time!);
+      var convertedDate = DateFormat('hh a').format(incomingDate);
+      hours.add(convertedDate);
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
@@ -27,7 +30,23 @@ class ApiListFill {
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyImageList.add(element.condition!.code);
+      incomingHourlyImageList.add(element.condition!.code);
+    }
+
+    for (var element in response.forecast!.forecastday!) {
+      var incomingDate = DateTime.parse(element.date!);
+      var convertedDate = DateFormat('EEEE').format(incomingDate);
+      nextDaysDate.add(convertedDate);
+    }
+
+    for (var element in response.forecast!.forecastday!) {
+      nextDaysMinTempC.add(element.day!.mintempC);
+      print(nextDaysMinTempC);
+    }
+
+    for (var element in response.forecast!.forecastday!) {
+      nextDaysMaxTempC.add(element.day!.maxtempC);
+      print(nextDaysMaxTempC);
     }
   }
 
@@ -44,15 +63,22 @@ class ApiListFill {
       "heavySnowy": [1114, 1117, 1207, 1219, 1222, 1225, 1237, 1258, 1264]
     };
 
-    imageListMap.forEach((key, value) {
-      if (value.contains(imageCode)) imageTop = matchAssets(key);
-    });
-    for (int hil in hourlyImageList) {
-      imageListMap.forEach((String key, value) {
-        if (value.contains(hil)) {
-          hourlyyyy.add(matchAssets(key));
+    imageListMap.forEach(
+      (key, value) {
+        if (value.contains(imageCode)) {
+          imageTop = matchAssets(key);
         }
-      });
+      },
+    );
+
+    for (int element in incomingHourlyImageList) {
+      imageListMap.forEach(
+        (String key, value) {
+          if (value.contains(element)) {
+            hourlyImageList.add(matchAssets(key));
+          }
+        },
+      );
     }
   }
 
@@ -60,6 +86,7 @@ class ApiListFill {
     switch (key) {
       case "cloudy":
         return "assets/lotties/4806-weather-windy.json";
+
       case "lightRainy":
         return "assets/lotties/4801-weather-partly-shower.json";
 

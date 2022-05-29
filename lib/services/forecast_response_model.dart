@@ -75,12 +75,14 @@ class Forecastday {
 }
 
 class Day {
-  double? avgtempC;
+  double? mintempC;
+  double? maxtempC;
   double? maxwindMph;
   Condition? condition;
 
   Day.fromJson(Map<String, dynamic> json) {
-    avgtempC = json['avgtemp_c'];
+    mintempC = json['mintemp_c'];
+    maxtempC = json['maxtemp_c'];
     maxwindMph = json['maxwind_mph'];
     condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
   }

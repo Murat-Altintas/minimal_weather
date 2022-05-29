@@ -41,7 +41,6 @@ class _MyAppState extends State<MyApp> {
                       await _apiListFill.apiListFill(_cityTextController.text);
                       setState(() {
                         _apiListFill.imageChangeVoid();
-                        print(_apiListFill.hourlyyyy.length);
                       });
                     },
                     child: const Text('Search')),
@@ -50,7 +49,7 @@ class _MyAppState extends State<MyApp> {
                       await _apiListFill.apiListFill(_cityTextController.text);
                       setState(() {
                         _apiListFill.imageChangeVoid();
-                        _apiListFill.hourlyyyy.clear();
+                        _apiListFill.hourlyImageList.clear();
                       });
                     },
                     child: const Text('Clean')),
@@ -59,12 +58,12 @@ class _MyAppState extends State<MyApp> {
             Text(_apiListFill.conditionText),
             Expanded(
               flex: 2,
-              child: _apiListFill.hourlyyyy.isNotEmpty
+              child: _apiListFill.nextDaysMinTempC.isNotEmpty
                   ? ListView.builder(
-                      itemCount: _apiListFill.hourlyyyy.length,
+                      itemCount: _apiListFill.nextDaysMinTempC.length,
                       itemBuilder: (BuildContext context, int index) {
                         return ListTile(
-                          leading: Lottie.asset("${_apiListFill.hourlyyyy[index]}"),
+                          leading: Text("${_apiListFill.nextDaysMinTempC[index]}"),
                         );
                       })
                   : const Text("test"),
