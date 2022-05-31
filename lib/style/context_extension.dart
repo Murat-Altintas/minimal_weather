@@ -36,11 +36,11 @@ extension MediaQueryExtension on BuildContext {
 }
 
 extension ThemeExtension on BuildContext {
-  ThemeData get theme => Theme.of(this);
+  ThemeData get weatherTheme => Theme.of(this);
 
-  TextTheme get textTheme => theme.textTheme;
+  TextTheme get textTheme => weatherTheme.textTheme;
 
-  ColorScheme get colors => theme.colorScheme;
+  ColorScheme get colors => weatherTheme.colorScheme;
 }
 
 extension PaddingExtension on BuildContext {

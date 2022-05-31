@@ -51,13 +51,7 @@ dev_dependencies:
   # rules and activating additional ones.
 
 flutter:
-  fonts:
-    - family: ZonaBold
-      fonts:
-        - asset: assets/fonts/ZonaPro-Bold.otf
-    - family: ZonaLight
-      fonts:
-        - asset: assets/fonts/ZonaPro-Thin.otf
+
   # The following line ensures that the Material Icons font is
   # included with your application, so that you can use the icons in
   # the material Icons class.
@@ -74,25 +68,21 @@ flutter:
   # For details regarding adding assets from package dependencies, see
   # https://flutter.dev/assets-and-images/#from-packages
 
+  assets:
+    - assets/lotties/
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a
   # list giving the asset and other descriptors for the font. For
   # example:
-  # fonts:
-  #   - family: Schyler
-  #     fonts:
-  #       - asset: fonts/Schyler-Regular.ttf
-  #       - asset: fonts/Schyler-Italic.ttf
-  #         style: italic
-  #   - family: Trajan Pro
-  #     fonts:
-  #       - asset: fonts/TrajanPro.ttf
-  #       - asset: fonts/TrajanPro_Bold.ttf
-  #         weight: 700
-  #
+  fonts:
+    - family: ZonaBold
+      fonts:
+        - asset: assets/fonts/ZonaPro-Bold.otf
+    - family: ZonaLight
+      fonts:
+        - asset: assets/fonts/ZonaPro-Thin.otf
+
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
 
-  assets:
-    - assets/lotties/
