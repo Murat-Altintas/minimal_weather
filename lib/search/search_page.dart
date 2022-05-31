@@ -1,4 +1,8 @@
+// ignore_for_file: unused_import
+
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
+import 'package:lottie/lottie.dart';
 import 'package:minimal_weatherapp/search/grid_list_widget.dart';
 import 'package:minimal_weatherapp/search/text_form_field_widget.dart';
 import 'package:minimal_weatherapp/style/color_scheme.dart';
@@ -15,11 +19,11 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPage extends State<SearchPage> {
   final cityTextController = TextEditingController();
-  final _apiListFill = ApiListFill();
+  final apiList = ApiListFillClass();
 
   @override
   Widget build(BuildContext context) {
-    final weatherTheme = TextThemeLight.instance!;
+    final textThemeLight = TextThemeLight.instance!;
     final colorScheme = ColorSchemeLight.instance!;
 
     return Scaffold(
@@ -31,7 +35,7 @@ class _SearchPage extends State<SearchPage> {
           ),
           child: Column(
             children: [
-              Text("Search Location", style: weatherTheme.headline1),
+              Text("Search Location", style: textThemeLight.headline1),
               SizedBox(
                 height: context.lowContainer,
               ),
@@ -41,15 +45,16 @@ class _SearchPage extends State<SearchPage> {
                   SizedBox(
                     width: context.width2 * 70,
                     height: context.mediumContainer,
-                    child: textFormField(cityTextController, weatherTheme, colorScheme, context),
+                    child: textFormField(cityTextController, textThemeLight, colorScheme, context),
                   ),
                   SizedBox(
                     width: context.lowContainer,
                     child: TextButton(
                         onPressed: () async {
-                          await _apiListFill.apiListFill(cityTextController.text);
+                          await apiList.apiListFill(cityTextController.text);
                           setState(() {
-                            _apiListFill.imageChangeVoid();
+                            apiList.nextDaysMinTempC;
+                            apiList.imageChangeVoid();
                           });
                         },
                         child: Icon(
@@ -61,10 +66,10 @@ class _SearchPage extends State<SearchPage> {
                     width: context.lowContainer,
                     child: TextButton(
                         onPressed: () async {
-                          await _apiListFill.apiListFill(cityTextController.text);
+                          await apiList.apiListFill(cityTextController.text);
                           setState(() {
-                            _apiListFill.imageChangeVoid();
-                            _apiListFill.nextDaysMinTempC.clear();
+                            apiList.imageChangeVoid();
+                            apiList.nextDaysMinTempC.clear();
                           });
                         },
                         child: Icon(
@@ -74,12 +79,79 @@ class _SearchPage extends State<SearchPage> {
                   ),
                 ],
               ),
-              GridListWidget(),
-              // mainList,
+              SizedBox(
+                height: context.lowContainer,
+              ),
+              listFillWidget(textThemeLight),
             ],
           ),
         ),
       ),
+    );
+  }
+
+  Expanded listFillWidget(TextThemeLight textThemeLight) {
+    return Expanded(
+      child: apiList.hourlyHumidityList.isNotEmpty
+          ? GridView.builder(
+              itemCount: apiList.hourlyHumidityList.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 20,
+                mainAxisSpacing: 20,
+              ),
+              itemBuilder: (context, index) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(30),
+                  child: SizedBox(
+                    height: context.height2 * 5,
+                    child: Stack(
+                      children: [
+                        SvgPicture.asset("assets/bg.svg"),
+                        Padding(
+                          padding: context.paddingMedium,
+                          child: Row(
+                            children: [
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SizedBox(
+                                    height: context.lowContainer,
+                                  ),
+                                  Text(
+                                    "${apiList.hourlyTempC[index]}" "\u00B0",
+                                    style: textThemeLight.headline3,
+                                  ),
+                                  Text(
+                                    apiList.conditionText,
+                                    style: textThemeLight.subtitle4,
+                                  ),
+                                  SizedBox(
+                                    height: context.lowContainer,
+                                  ),
+                                  Text(
+                                    apiList.region,
+                                    style: textThemeLight.subtitle3,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                        Positioned(
+                          left: context.width2 * 25,
+                          top: context.height2 * 15,
+                          child: SizedBox(
+                            height: context.height2 * 10,
+                            child: LottieBuilder.asset(apiList.hourlyImageList[index]),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              })
+          : const Text("test"),
     );
   }
 }

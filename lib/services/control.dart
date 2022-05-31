@@ -3,7 +3,7 @@
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
-class ApiListFill {
+class ApiListFillClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
@@ -68,6 +68,7 @@ class ApiListFill {
 
     for (var element in response.forecast!.forecastday!) {
       nextDaysMinTempC.add(element.day!.mintempC);
+      print(nextDaysMinTempC);
     }
 
     for (var element in response.forecast!.forecastday!) {

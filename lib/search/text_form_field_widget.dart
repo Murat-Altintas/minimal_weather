@@ -1,15 +1,14 @@
 import 'package:flutter/material.dart';
 import "/style/context_extension.dart";
-
 import '../style/color_scheme.dart';
 import '../style/text_theme.dart';
 
-TextFormField textFormField(TextEditingController cityTextController, TextThemeLight weatherTheme, ColorSchemeLight colorScheme, BuildContext context) {
+TextFormField textFormField(TextEditingController cityTextController, TextThemeLight textTheme, ColorSchemeLight colorScheme, BuildContext context) {
   return TextFormField(
-    style: weatherTheme.subtitle1,
+    style: textTheme.subtitle1,
     controller: cityTextController,
     decoration: InputDecoration(
-      prefixStyle: weatherTheme.subtitle2,
+      prefixStyle: textTheme.subtitle2,
       focusedBorder: OutlineInputBorder(
         borderSide: BorderSide(color: colorScheme.purple),
         borderRadius: BorderRadius.circular(25.0),
@@ -19,7 +18,7 @@ TextFormField textFormField(TextEditingController cityTextController, TextThemeL
         borderSide: BorderSide(color: colorScheme.purple),
       ),
       labelText: 'Search',
-      labelStyle: weatherTheme.subtitle2,
+      labelStyle: textTheme.subtitle2,
     ),
   );
 }

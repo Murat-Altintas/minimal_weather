@@ -39,6 +39,7 @@ dependencies:
   sizer: ^2.0.15
   animations: ^2.0.3
   flutter_staggered_animations: ^1.0.0
+  flutter_svg: ^1.1.0
 
 dev_dependencies:
   flutter_test:
@@ -70,6 +71,7 @@ flutter:
 
   assets:
     - assets/lotties/
+    - assets/bg.svg
   # To add custom fonts to your application, add a fonts section here,
   # in this "flutter" section. Each entry in this list should have a
   # "family" key with the font family name, and a "fonts" key with a

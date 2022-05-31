@@ -35,14 +35,6 @@ extension MediaQueryExtension on BuildContext {
   double get heightContainer => height2 * 9;
 }
 
-extension ThemeExtension on BuildContext {
-  ThemeData get weatherTheme => Theme.of(this);
-
-  TextTheme get textTheme => weatherTheme.textTheme;
-
-  ColorScheme get colors => weatherTheme.colorScheme;
-}
-
 extension PaddingExtension on BuildContext {
   EdgeInsets get paddingSocialIcons => EdgeInsets.all(paddingSocialIconsValue);
 
