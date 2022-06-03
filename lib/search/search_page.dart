@@ -53,8 +53,7 @@ class _SearchPage extends State<SearchPage> {
                         onPressed: () async {
                           await apiList.apiListFill(cityTextController.text);
                           setState(() {
-                            apiList.nextDaysMinTempC;
-                            apiList.imageChangeVoid();
+                            apiList.imageChangeVoid(incomingRegion: apiList.region);
                           });
                         },
                         child: Icon(
@@ -65,12 +64,9 @@ class _SearchPage extends State<SearchPage> {
                   SizedBox(
                     width: context.lowContainer,
                     child: TextButton(
-                        onPressed: () async {
-                          await apiList.apiListFill(cityTextController.text);
-                          setState(() {
-                            apiList.imageChangeVoid();
-                            apiList.nextDaysMinTempC.clear();
-                          });
+                        onPressed: () {
+                          apiList.showListWidgetData.clear;
+                          setState(() {});
                         },
                         child: Icon(
                           Icons.delete,
@@ -94,7 +90,7 @@ class _SearchPage extends State<SearchPage> {
     return Expanded(
       child: apiList.hourlyHumidityList.isNotEmpty
           ? GridView.builder(
-              itemCount: apiList.hourlyHumidityList.length,
+              itemCount: apiList.testList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
                 crossAxisSpacing: 20,
@@ -119,19 +115,8 @@ class _SearchPage extends State<SearchPage> {
                                     height: context.lowContainer,
                                   ),
                                   Text(
-                                    "${apiList.hourlyTempC[index]}" "\u00B0",
+                                    "${apiList.testList[index]}",
                                     style: textThemeLight.headline3,
-                                  ),
-                                  Text(
-                                    apiList.conditionText,
-                                    style: textThemeLight.subtitle4,
-                                  ),
-                                  SizedBox(
-                                    height: context.lowContainer,
-                                  ),
-                                  Text(
-                                    apiList.region,
-                                    style: textThemeLight.subtitle3,
                                   ),
                                 ],
                               ),
@@ -143,7 +128,7 @@ class _SearchPage extends State<SearchPage> {
                           top: context.height2 * 15,
                           child: SizedBox(
                             height: context.height2 * 10,
-                            child: LottieBuilder.asset(apiList.hourlyImageList[index]),
+                            child: LottieBuilder.asset(apiList.imageTop),
                           ),
                         ),
                       ],
@@ -155,3 +140,22 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 }
+
+//                                   SizedBox(
+//                                     height: context.lowContainer,
+//                                   ),
+//                                   Text(
+//                                     "${apiList.hourlyTempC[index]}" "\u00B0",
+//                                     style: textThemeLight.headline3,
+//                                   ),
+//                                   Text(
+//                                     apiList.conditionText,
+//                                     style: textThemeLight.subtitle4,
+//                                   ),
+//                                   SizedBox(
+//                                     height: context.lowContainer,
+//                                   ),
+//                                   Text(
+//                                     apiList.region,
+//                                     style: textThemeLight.subtitle3,
+//                                   ),

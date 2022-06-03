@@ -7,7 +7,7 @@ class ApiListFillClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
-  int imageCode = 0, humidity = 0;
+  int _imageCode = 0, humidity = 0;
   List<dynamic> hours = [],
       hourlyTempC = [],
       _incomingHourlyImageList = [],
@@ -17,7 +17,10 @@ class ApiListFillClass {
       nextDaysDate = [],
       nextDaysMinTempC = [],
       nextDaysMaxTempC = [],
-      hourlyWindMphList = [];
+      hourlyWindMphList = [],
+      testList = [];
+
+  Map<String, dynamic> saveListWidgetData = {}, showListWidgetData = {};
 
   Future<void> apiListFill(String text) async {
     final response = await dataService.getWeather(text);
@@ -25,7 +28,7 @@ class ApiListFillClass {
     region = response.location!.region!;
     tempC = response.current!.tempC!;
     conditionText = response.current!.condition!.text!;
-    imageCode = response.current!.condition!.code!;
+    _imageCode = response.current!.condition!.code!;
     humidity = response.current!.humidity!;
     pressureMb = response.current!.pressureMb!;
     windMph = response.current!.windMph!;
@@ -68,7 +71,6 @@ class ApiListFillClass {
 
     for (var element in response.forecast!.forecastday!) {
       nextDaysMinTempC.add(element.day!.mintempC);
-      print(nextDaysMinTempC);
     }
 
     for (var element in response.forecast!.forecastday!) {
@@ -76,7 +78,7 @@ class ApiListFillClass {
     }
   }
 
-  void imageChangeVoid() {
+  void imageChangeVoid({String incomingRegion = "incomingRegion"}) {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -91,11 +93,20 @@ class ApiListFillClass {
 
     imageListMap.forEach(
       (key, value) {
-        if (value.contains(imageCode)) {
+        if (value.contains(_imageCode)) {
           imageTop = matchAssets(key);
         }
       },
     );
+
+    saveListWidgetData = {
+      "region": region,
+      "tempC": tempC,
+      "conditionText": conditionText,
+      "imageTop": imageTop,
+    };
+
+    testList.add(incomingRegion);
 
     for (int element in _incomingHourlyImageList) {
       imageListMap.forEach(
