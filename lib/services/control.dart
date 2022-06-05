@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
+import 'package:flutter/widgets.dart';
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
@@ -18,9 +19,8 @@ class ApiListFillClass {
       nextDaysMinTempC = [],
       nextDaysMaxTempC = [],
       hourlyWindMphList = [],
-      testList = [];
-
-  Map<String, dynamic> saveListWidgetData = {}, showListWidgetData = {};
+      regionList = [],
+      tempCList = [];
 
   Future<void> apiListFill(String text) async {
     final response = await dataService.getWeather(text);
@@ -78,7 +78,9 @@ class ApiListFillClass {
     }
   }
 
-  void imageChangeVoid({String incomingRegion = "incomingRegion"}) {
+  void imageChangeVoid({String? incomingRegion, double? incomingTempC}) {
+    incomingRegion ??= region;
+    incomingTempC ??= tempC;
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -91,6 +93,9 @@ class ApiListFillClass {
       "heavySnowy": [1114, 1117, 1207, 1219, 1222, 1225, 1237, 1258, 1264]
     };
 
+    regionList.add(incomingRegion);
+    tempCList.add(incomingTempC);
+
     imageListMap.forEach(
       (key, value) {
         if (value.contains(_imageCode)) {
@@ -98,15 +103,6 @@ class ApiListFillClass {
         }
       },
     );
-
-    saveListWidgetData = {
-      "region": region,
-      "tempC": tempC,
-      "conditionText": conditionText,
-      "imageTop": imageTop,
-    };
-
-    testList.add(incomingRegion);
 
     for (int element in _incomingHourlyImageList) {
       imageListMap.forEach(

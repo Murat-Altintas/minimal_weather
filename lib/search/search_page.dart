@@ -20,6 +20,7 @@ class SearchPage extends StatefulWidget {
 class _SearchPage extends State<SearchPage> {
   final cityTextController = TextEditingController();
   final apiList = ApiListFillClass();
+  ApiListFillClass apiListFillClass = ApiListFillClass();
 
   @override
   Widget build(BuildContext context) {
@@ -53,7 +54,7 @@ class _SearchPage extends State<SearchPage> {
                         onPressed: () async {
                           await apiList.apiListFill(cityTextController.text);
                           setState(() {
-                            apiList.imageChangeVoid(incomingRegion: apiList.region);
+                            apiList.imageChangeVoid();
                           });
                         },
                         child: Icon(
@@ -65,7 +66,6 @@ class _SearchPage extends State<SearchPage> {
                     width: context.lowContainer,
                     child: TextButton(
                         onPressed: () {
-                          apiList.showListWidgetData.clear;
                           setState(() {});
                         },
                         child: Icon(
@@ -78,68 +78,15 @@ class _SearchPage extends State<SearchPage> {
               SizedBox(
                 height: context.lowContainer,
               ),
-              listFillWidget(textThemeLight),
+              listFillWidget(textThemeLight, apiList),
             ],
           ),
         ),
       ),
     );
   }
-
-  Expanded listFillWidget(TextThemeLight textThemeLight) {
-    return Expanded(
-      child: apiList.hourlyHumidityList.isNotEmpty
-          ? GridView.builder(
-              itemCount: apiList.testList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                crossAxisSpacing: 20,
-                mainAxisSpacing: 20,
-              ),
-              itemBuilder: (context, index) {
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(30),
-                  child: SizedBox(
-                    height: context.height2 * 5,
-                    child: Stack(
-                      children: [
-                        SvgPicture.asset("assets/bg.svg"),
-                        Padding(
-                          padding: context.paddingMedium,
-                          child: Row(
-                            children: [
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  SizedBox(
-                                    height: context.lowContainer,
-                                  ),
-                                  Text(
-                                    "${apiList.testList[index]}",
-                                    style: textThemeLight.headline3,
-                                  ),
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                        Positioned(
-                          left: context.width2 * 25,
-                          top: context.height2 * 15,
-                          child: SizedBox(
-                            height: context.height2 * 10,
-                            child: LottieBuilder.asset(apiList.imageTop),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              })
-          : const Text("test"),
-    );
-  }
 }
+
 
 //                                   SizedBox(
 //                                     height: context.lowContainer,
