@@ -7,9 +7,9 @@ import 'package:minimal_weatherapp/style/text_theme.dart';
 import "/style/context_extension.dart";
 import '../services/control.dart';
 
-Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillClass apiList) {
+Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiList) {
   return Expanded(
-    child: apiList.hourlyHumidityList.isNotEmpty
+    child: apiList.regionList.isNotEmpty
         ? GridView.builder(
             itemCount: apiList.regionList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -25,27 +25,50 @@ Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillClass apiList)
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
                   child: SizedBox(
-                    height: context.height2 * 5,
+                    height: context.height2 * 4,
                     child: Stack(
                       children: [
                         SvgPicture.asset("assets/bg.svg"),
                         Padding(
-                          padding: context.paddingMedium,
+                          padding: EdgeInsets.only(left: context.width2 * 4),
                           child: Row(
                             children: [
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   SizedBox(
-                                    height: context.lowContainer,
+                                    height: context.lowestContainer,
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: context.width2 * 35,
+                                      height: context.height2 * 10,
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          "${apiList.showListWidget["regionList"]![index]}",
+                                          style: textThemeLight.headline3,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   Text(
-                                    "${apiList.regionList[index]}",
+                                    "${apiList.showListWidget["tempCList"]![index]}" "\u00B0",
                                     style: textThemeLight.headline3,
                                   ),
-                                  Text(
-                                    "${apiList.tempCList[index]}" "\u00B0",
-                                    style: textThemeLight.headline3,
+                                  SizedBox(
+                                    height: context.lowestContainer,
+                                  ),
+                                  Expanded(
+                                    child: SizedBox(
+                                      width: context.width2 * 22,
+                                      height: context.height2 * 10,
+                                      child: SingleChildScrollView(
+                                        child: Text(
+                                          "${apiList.showListWidget["conditionList"]![index]}",
+                                          style: textThemeLight.subtitle4,
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -57,7 +80,7 @@ Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillClass apiList)
                           top: context.height2 * 15,
                           child: SizedBox(
                             height: context.height2 * 10,
-                            child: LottieBuilder.asset(apiList.imageTop),
+                            child: LottieBuilder.asset(apiList.showListWidget["imageList"]![index]),
                           ),
                         ),
                       ],

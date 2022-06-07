@@ -19,8 +19,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPage extends State<SearchPage> {
   final cityTextController = TextEditingController();
-  final apiList = ApiListFillClass();
-  ApiListFillClass apiListFillClass = ApiListFillClass();
+  final apiList = apiListFillVoidClass();
 
   @override
   Widget build(BuildContext context) {
@@ -52,7 +51,7 @@ class _SearchPage extends State<SearchPage> {
                     width: context.lowContainer,
                     child: TextButton(
                         onPressed: () async {
-                          await apiList.apiListFill(cityTextController.text);
+                          await apiList.apiListFillVoid(cityTextController.text);
                           setState(() {
                             apiList.imageChangeVoid();
                           });
@@ -66,6 +65,7 @@ class _SearchPage extends State<SearchPage> {
                     width: context.lowContainer,
                     child: TextButton(
                         onPressed: () {
+                          apiList.showListWidget.clear();
                           setState(() {});
                         },
                         child: Icon(
@@ -86,23 +86,3 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 }
-
-
-//                                   SizedBox(
-//                                     height: context.lowContainer,
-//                                   ),
-//                                   Text(
-//                                     "${apiList.hourlyTempC[index]}" "\u00B0",
-//                                     style: textThemeLight.headline3,
-//                                   ),
-//                                   Text(
-//                                     apiList.conditionText,
-//                                     style: textThemeLight.subtitle4,
-//                                   ),
-//                                   SizedBox(
-//                                     height: context.lowContainer,
-//                                   ),
-//                                   Text(
-//                                     apiList.region,
-//                                     style: textThemeLight.subtitle3,
-//                                   ),

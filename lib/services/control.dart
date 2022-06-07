@@ -1,10 +1,9 @@
 // ignore_for_file: prefer_final_fields
 
-import 'package:flutter/widgets.dart';
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
-class ApiListFillClass {
+class apiListFillVoidClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
@@ -20,12 +19,15 @@ class ApiListFillClass {
       nextDaysMaxTempC = [],
       hourlyWindMphList = [],
       regionList = [],
-      tempCList = [];
+      tempCList = [],
+      imageList = [],
+      conditionList = [];
+  Map<String, List<dynamic>> showListWidget = {};
 
-  Future<void> apiListFill(String text) async {
+  Future<void> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
+    region = response.location!.name!;
 
-    region = response.location!.region!;
     tempC = response.current!.tempC!;
     conditionText = response.current!.condition!.text!;
     _imageCode = response.current!.condition!.code!;
@@ -78,9 +80,7 @@ class ApiListFillClass {
     }
   }
 
-  void imageChangeVoid({String? incomingRegion, double? incomingTempC}) {
-    incomingRegion ??= region;
-    incomingTempC ??= tempC;
+  void imageChangeVoid({String? incomingRegion, String? incomingImage, String? incomingCondition, double? incomingTempC}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -93,8 +93,39 @@ class ApiListFillClass {
       "heavySnowy": [1114, 1117, 1207, 1219, 1222, 1225, 1237, 1258, 1264]
     };
 
-    regionList.add(incomingRegion);
-    tempCList.add(incomingTempC);
+    String matchAssets(String key) {
+      switch (key) {
+        case "cloudy":
+          return "assets/lotties/4806-weather-windy.json";
+
+        case "lightRainy":
+          return "assets/lotties/4801-weather-partly-shower.json";
+
+        case "sunny":
+          return "assets/lotties/4804-weather-sunny.json";
+
+        case "lightcloudy":
+          return "assets/lotties/4800-weather-partly-cloudy.json";
+
+        case "mediumRainy":
+          return "assets/lotties/4805-weather-thunder.json";
+
+        case "heavyRainy":
+          return "assets/lotties/4803-weather-storm.json";
+
+        case "fog":
+          return "assets/lotties/4795-weather-mist.json";
+
+        case "lightSnowy":
+          return "assets/lotties/4802-weather-snow-sunny.json";
+
+        case "heavySnowy":
+          return "assets/lotties/4793-weather-snow.json";
+
+        default:
+          return "";
+      }
+    }
 
     imageListMap.forEach(
       (key, value) {
@@ -103,7 +134,9 @@ class ApiListFillClass {
         }
       },
     );
-
+    if (incomingRegion == "van") {
+      incomingRegion = "van";
+    }
     for (int element in _incomingHourlyImageList) {
       imageListMap.forEach(
         (String key, value) {
@@ -113,39 +146,21 @@ class ApiListFillClass {
         },
       );
     }
-  }
 
-  String matchAssets(String key) {
-    switch (key) {
-      case "cloudy":
-        return "assets/lotties/4806-weather-windy.json";
+    incomingRegion ??= region;
+    incomingTempC ??= tempC;
+    incomingImage ??= imageTop;
+    incomingCondition ??= conditionText;
+    imageList.add(imageTop);
+    regionList.add(incomingRegion);
+    tempCList.add(incomingTempC);
+    conditionList.add(incomingCondition);
 
-      case "lightRainy":
-        return "assets/lotties/4801-weather-partly-shower.json";
-
-      case "sunny":
-        return "assets/lotties/4804-weather-sunny.json";
-
-      case "lightcloudy":
-        return "assets/lotties/4800-weather-partly-cloudy.json";
-
-      case "mediumRainy":
-        return "assets/lotties/4805-weather-thunder.json";
-
-      case "heavyRainy":
-        return "assets/lotties/4803-weather-storm.json";
-
-      case "fog":
-        return "assets/lotties/4795-weather-mist.json";
-
-      case "lightSnowy":
-        return "assets/lotties/4802-weather-snow-sunny.json";
-
-      case "heavySnowy":
-        return "assets/lotties/4793-weather-snow.json";
-
-      default:
-        return "";
-    }
+    showListWidget = {
+      "regionList": regionList,
+      "tempCList": tempCList,
+      "imageList": imageList,
+      "conditionList": conditionList,
+    };
   }
 }

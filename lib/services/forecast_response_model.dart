@@ -11,10 +11,10 @@ class WeatherResponse {
 }
 
 class Location {
-  String? region;
+  String? name;
 
   Location.fromJson(Map<String, dynamic> json) {
-    region = json['region'];
+    name = json['name'];
   }
 }
 

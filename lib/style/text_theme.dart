@@ -20,7 +20,7 @@ class TextThemeLight {
   final TextStyle headline3 = const TextStyle(
     fontFamily: "ZonaBold",
     color: Colors.white,
-    fontSize: 30,
+    fontSize: 20,
   );
   final TextStyle headline4 = const TextStyle(
     fontFamily: "ZonaLight",
@@ -46,6 +46,6 @@ class TextThemeLight {
   final TextStyle subtitle4 = const TextStyle(
     fontFamily: "ZonaLight",
     color: Colors.white,
-    fontSize: 15,
+    fontSize: 13,
   );
 }
