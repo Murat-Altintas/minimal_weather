@@ -20,18 +20,18 @@ class SearchPage extends StatefulWidget {
 class _SearchPage extends State<SearchPage> {
   final cityTextController = TextEditingController();
   final apiList = apiListFillVoidClass();
+  final textThemeLight = TextThemeLight.instance!;
+  final colorScheme = ColorSchemeLight.instance!;
 
   @override
   Widget build(BuildContext context) {
-    final textThemeLight = TextThemeLight.instance!;
-    final colorScheme = ColorSchemeLight.instance!;
-
     return Scaffold(
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.only(
-            left: context.height2 * 3,
-            right: context.height2 * 3,
+            left: context.width2 * 3,
+            right: context.width2 * 3,
+            top: context.height2 * 3,
           ),
           child: Column(
             children: [
@@ -39,42 +39,7 @@ class _SearchPage extends State<SearchPage> {
               SizedBox(
                 height: context.lowContainer,
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  SizedBox(
-                    width: context.width2 * 70,
-                    height: context.mediumContainer,
-                    child: textFormField(cityTextController, textThemeLight, colorScheme, context),
-                  ),
-                  SizedBox(
-                    width: context.lowContainer,
-                    child: TextButton(
-                        onPressed: () async {
-                          await apiList.apiListFillVoid(cityTextController.text);
-                          setState(() {
-                            apiList.imageChangeVoid();
-                          });
-                        },
-                        child: Icon(
-                          Icons.search,
-                          color: colorScheme.purple,
-                        )),
-                  ),
-                  SizedBox(
-                    width: context.lowContainer,
-                    child: TextButton(
-                        onPressed: () {
-                          apiList.showListWidget.clear();
-                          setState(() {});
-                        },
-                        child: Icon(
-                          Icons.delete,
-                          color: colorScheme.purple,
-                        )),
-                  ),
-                ],
-              ),
+              searchBarWidget(context, textThemeLight, colorScheme),
               SizedBox(
                 height: context.lowContainer,
               ),
@@ -83,6 +48,45 @@ class _SearchPage extends State<SearchPage> {
           ),
         ),
       ),
+    );
+  }
+
+  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        SizedBox(
+          width: context.width2 * 70,
+          height: context.mediumContainer,
+          child: textFormField(cityTextController, textThemeLight, colorScheme, context),
+        ),
+        SizedBox(
+          width: context.lowContainer,
+          child: TextButton(
+              onPressed: () async {
+                await apiList.apiListFillVoid(cityTextController.text);
+                setState(() {
+                  apiList.imageChangeVoid();
+                });
+              },
+              child: Icon(
+                Icons.search,
+                color: colorScheme.purple,
+              )),
+        ),
+        SizedBox(
+          width: context.lowContainer,
+          child: TextButton(
+              onPressed: () {
+                apiList.showSelectedCountryMap.clear();
+                setState(() {});
+              },
+              child: Icon(
+                Icons.delete,
+                color: colorScheme.purple,
+              )),
+        ),
+      ],
     );
   }
 }

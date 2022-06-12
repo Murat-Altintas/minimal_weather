@@ -22,7 +22,7 @@ class apiListFillVoidClass {
       tempCList = [],
       imageList = [],
       conditionList = [];
-  Map<String, List<dynamic>> showListWidget = {};
+  Map<String, List<dynamic>> showSelectedCountryMap = {};
 
   Future<void> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
@@ -151,12 +151,13 @@ class apiListFillVoidClass {
     incomingTempC ??= tempC;
     incomingImage ??= imageTop;
     incomingCondition ??= conditionText;
+
     imageList.add(imageTop);
     regionList.add(incomingRegion);
     tempCList.add(incomingTempC);
     conditionList.add(incomingCondition);
 
-    showListWidget = {
+    showSelectedCountryMap = {
       "regionList": regionList,
       "tempCList": tempCList,
       "imageList": imageList,

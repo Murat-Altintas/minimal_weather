@@ -1,8 +1,9 @@
-// ignore_for_file: unused_field
+// ignore_for_file: unused_field, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:minimal_weatherapp/details/weather_detail_page.dart';
 import 'package:minimal_weatherapp/style/text_theme.dart';
 import "/style/context_extension.dart";
 import '../services/control.dart';
@@ -20,7 +21,13 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  print(apiList.tempCList[index]);
+                  print(apiList.showSelectedCountryMap);
+                  // Navigator.of(context).push(
+                  //   MaterialPageRoute(
+                  //       builder: (context) => WeatherDetailPage(
+                  //             incomingSelectedCountryMap: apiList.showSelectedCountryMap,
+                  //           )),
+                  // );
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
@@ -45,14 +52,14 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
                                       height: context.height2 * 10,
                                       child: SingleChildScrollView(
                                         child: Text(
-                                          "${apiList.showListWidget["regionList"]![index]}",
+                                          "${apiList.showSelectedCountryMap["regionList"]![index]}",
                                           style: textThemeLight.headline3,
                                         ),
                                       ),
                                     ),
                                   ),
                                   Text(
-                                    "${apiList.showListWidget["tempCList"]![index]}" "\u00B0",
+                                    "${apiList.showSelectedCountryMap["tempCList"]![index]}" "\u00B0",
                                     style: textThemeLight.headline3,
                                   ),
                                   SizedBox(
@@ -64,7 +71,7 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
                                       height: context.height2 * 10,
                                       child: SingleChildScrollView(
                                         child: Text(
-                                          "${apiList.showListWidget["conditionList"]![index]}",
+                                          "${apiList.showSelectedCountryMap["conditionList"]![index]}",
                                           style: textThemeLight.subtitle4,
                                         ),
                                       ),
@@ -80,7 +87,7 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
                           top: context.height2 * 15,
                           child: SizedBox(
                             height: context.height2 * 10,
-                            child: LottieBuilder.asset(apiList.showListWidget["imageList"]![index]),
+                            child: LottieBuilder.asset(apiList.showSelectedCountryMap["imageList"]![index]),
                           ),
                         ),
                       ],
