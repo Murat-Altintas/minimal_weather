@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
 
+import 'color_scheme.dart';
+
 class TextThemeLight {
   static TextThemeLight? _instace;
   static TextThemeLight? get instance {
     _instace ??= TextThemeLight._init();
     return _instace;
   }
+
+  final colorScheme = ColorSchemeLight.instance!;
 
   TextThemeLight._init();
 
@@ -29,12 +33,13 @@ class TextThemeLight {
   );
   final TextStyle subtitle1 = const TextStyle(
     fontFamily: "ZonaBold",
-    fontSize: 20,
+    fontSize: 17,
   );
 
   final TextStyle subtitle2 = const TextStyle(
     fontFamily: "ZonaLight",
-    fontSize: 20,
+    color: Colors.black38,
+    fontSize: 17,
   );
 
   final TextStyle subtitle3 = const TextStyle(
