@@ -1,5 +1,6 @@
+// ignore_for_file: prefer_const_constructors
+
 import 'package:flutter/material.dart';
-import 'package:minimal_weatherapp/details/weather_detail_page.dart';
 import 'package:minimal_weatherapp/search/search_page.dart';
 
 void main() {
@@ -19,7 +20,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       home: Scaffold(
-        body: WeatherDetailPage(),
+        body: SearchPage(),
       ),
     );
   }

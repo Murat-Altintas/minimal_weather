@@ -19,7 +19,7 @@ class SearchPage extends StatefulWidget {
 
 class _SearchPage extends State<SearchPage> {
   final cityTextController = TextEditingController();
-  final apiList = apiListFillVoidClass();
+  final apiList = ApiListFillVoidClass();
   final textThemeLight = TextThemeLight.instance!;
   final colorScheme = ColorSchemeLight.instance!;
 
@@ -67,6 +67,7 @@ class _SearchPage extends State<SearchPage> {
                 await apiList.apiListFillVoid(cityTextController.text);
                 setState(() {
                   apiList.imageChangeVoid();
+                  print(apiList.hourlyImageList);
                 });
               },
               child: Icon(

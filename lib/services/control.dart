@@ -3,25 +3,26 @@
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
-class apiListFillVoidClass {
+class ApiListFillVoidClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
   double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
   int _imageCode = 0, humidity = 0;
   List<dynamic> hours = [],
-      hourlyTempC = [],
+      hourlyTempCList = [],
       _incomingHourlyImageList = [],
       hourlyImageList = [],
       hourlyHumidityList = [],
       hourlyPressureMbList = [],
-      nextDaysDate = [],
-      nextDaysMinTempC = [],
-      nextDaysMaxTempC = [],
-      hourlyWindMphList = [],
+      nextDaysDateList = [],
+      nextDaysMinTempCList = [],
+      nextDaysMaxTempCList = [],
+      dayHoursList = [],
       regionList = [],
       tempCList = [],
       imageList = [],
       conditionList = [];
+
   Map<String, List<dynamic>> showSelectedCountryMap = {};
 
   Future<void> apiListFillVoid(String text) async {
@@ -42,11 +43,7 @@ class apiListFillVoidClass {
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyTempC.add(element.tempC);
-    }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
-      _incomingHourlyImageList.add(element.condition!.code);
+      hourlyTempCList.add(element.tempC);
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
@@ -58,7 +55,9 @@ class apiListFillVoidClass {
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyWindMphList.add(element.windMph);
+      var incomingHours = DateTime.parse(element.time!);
+      var convertedHours = DateFormat('kk:mm').format(incomingHours);
+      dayHoursList.add(convertedHours);
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
@@ -67,20 +66,29 @@ class apiListFillVoidClass {
 
     for (var element in response.forecast!.forecastday!) {
       var incomingDate = DateTime.parse(element.date!);
-      var convertedDate = DateFormat('EEEE').format(incomingDate);
-      nextDaysDate.add(convertedDate);
+      var convertedDate = DateFormat('EEEE d MMMM').format(incomingDate);
+      nextDaysDateList.add(convertedDate);
     }
 
     for (var element in response.forecast!.forecastday!) {
-      nextDaysMinTempC.add(element.day!.mintempC);
+      nextDaysMinTempCList.add(element.day!.mintempC);
     }
 
     for (var element in response.forecast!.forecastday!) {
-      nextDaysMaxTempC.add(element.day!.maxtempC);
+      nextDaysMaxTempCList.add(element.day!.maxtempC!.ceil());
     }
   }
 
-  void imageChangeVoid({String? incomingRegion, String? incomingImage, String? incomingCondition, double? incomingTempC}) async {
+  void imageChangeVoid(
+      {incomingRegion,
+      incomingImage,
+      incomingCondition,
+      incomingTempC,
+      incomingHourlyTempC,
+      incomingDayHours,
+      incomingHourlyImages,
+      incomingNextDaysTempC,
+      incomingNextDaysDate}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -96,31 +104,31 @@ class apiListFillVoidClass {
     String matchAssets(String key) {
       switch (key) {
         case "cloudy":
-          return "assets/lotties/4806-weather-windy.json";
+          return "assets/images/weather-windy.png";
 
         case "lightRainy":
-          return "assets/lotties/4801-weather-partly-shower.json";
+          return "assets/images/weather-partly-shower.png";
 
         case "sunny":
-          return "assets/lotties/4804-weather-sunny.json";
+          return "assets/images/weather-sunny.png";
 
         case "lightcloudy":
-          return "assets/lotties/4800-weather-partly-cloudy.json";
+          return "assets/images/weather-partly-cloudy.png";
 
         case "mediumRainy":
-          return "assets/lotties/4805-weather-thunder.json";
+          return "assets/images/weather-thunder.png";
 
         case "heavyRainy":
-          return "assets/lotties/4803-weather-storm.json";
+          return "assets/images/weather-storm.png";
 
         case "fog":
-          return "assets/lotties/4795-weather-mist.json";
+          return "assets/images/weather-mist.png";
 
         case "lightSnowy":
-          return "assets/lotties/4802-weather-snow-sunny.json";
+          return "assets/images/weather-snow-sunny.png";
 
         case "heavySnowy":
-          return "assets/lotties/4793-weather-snow.json";
+          return "assets/images/weather-snow.png";
 
         default:
           return "";
@@ -151,17 +159,32 @@ class apiListFillVoidClass {
     incomingTempC ??= tempC;
     incomingImage ??= imageTop;
     incomingCondition ??= conditionText;
+    incomingDayHours ??= dayHoursList;
+    incomingHourlyTempC ??= hourlyTempCList;
+    incomingHourlyImages ??= hourlyImageList;
+    incomingTempC ??= nextDaysMaxTempCList;
+    incomingNextDaysDate ??= nextDaysDateList;
 
-    imageList.add(imageTop);
     regionList.add(incomingRegion);
     tempCList.add(incomingTempC);
+    imageList.add(imageTop);
     conditionList.add(incomingCondition);
+    dayHoursList.add(dayHoursList);
+    hourlyTempCList.add(incomingHourlyTempC);
+    hourlyImageList.add(incomingHourlyImages);
+    nextDaysMaxTempCList.add(incomingNextDaysTempC);
+    nextDaysDateList.add(incomingNextDaysDate);
 
     showSelectedCountryMap = {
       "regionList": regionList,
       "tempCList": tempCList,
       "imageList": imageList,
       "conditionList": conditionList,
+      "dayHoursList": dayHoursList,
+      "hourlyTempCList": hourlyTempCList,
+      "hourlyImageList": hourlyImageList,
+      "nextDaysMaxTempCList": nextDaysMaxTempCList,
+      "nextDaysDateList": nextDaysDateList,
     };
   }
 }

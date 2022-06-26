@@ -8,7 +8,7 @@ import 'package:minimal_weatherapp/style/text_theme.dart';
 import "/style/context_extension.dart";
 import '../services/control.dart';
 
-Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiList) {
+Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillVoidClass apiList) {
   return Expanded(
     child: apiList.regionList.isNotEmpty
         ? GridView.builder(
@@ -21,13 +21,11 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
             itemBuilder: (context, index) {
               return InkWell(
                 onTap: () {
-                  print(apiList.showSelectedCountryMap);
-                  // Navigator.of(context).push(
-                  //   MaterialPageRoute(
-                  //       builder: (context) => WeatherDetailPage(
-                  //             incomingSelectedCountryMap: apiList.showSelectedCountryMap,
-                  //           )),
-                  // );
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => WeatherDetailPage(
+                            incomingSelectedCountryMap: apiList.showSelectedCountryMap,
+                            incomingIndex: index,
+                          )));
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
@@ -86,8 +84,8 @@ Expanded listFillWidget(TextThemeLight textThemeLight, apiListFillVoidClass apiL
                           left: context.width2 * 25,
                           top: context.height2 * 15,
                           child: SizedBox(
-                            height: context.height2 * 10,
-                            child: LottieBuilder.asset(apiList.showSelectedCountryMap["imageList"]![index]),
+                            height: context.height2 * 8,
+                            child: Image.asset(apiList.showSelectedCountryMap["imageList"]![index]),
                           ),
                         ),
                       ],
