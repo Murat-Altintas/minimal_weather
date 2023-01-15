@@ -33,14 +33,20 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             left: context.width2 * 5,
             right: context.width2 * 5,
           ),
-          child: Column(
+          /// add stack to add back button.
+          child: Stack(
             children: [
-              topCountryName(),
-              SizedBox(
-                height: context.mediumContainer,
+              Column(
+                children: [
+                  topCountryName(),
+                  SizedBox(
+                    height: context.mediumContainer,
+                  ),
+                  //  topStack(context, widget.incomingIndex),
+                  bottomCarouselRow(widget.incomingIndex),
+                ],
               ),
-              //  topStack(context, widget.incomingIndex),
-              bottomCarouselRow(widget.incomingIndex),
+              Align(alignment: Alignment.topLeft,child: BackButton(),),
             ],
           ),
         ),

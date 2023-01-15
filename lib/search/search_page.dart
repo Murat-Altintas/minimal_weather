@@ -6,9 +6,10 @@ import 'package:lottie/lottie.dart';
 import 'package:minimal_weatherapp/search/grid_list_widget.dart';
 import 'package:minimal_weatherapp/search/text_form_field_widget.dart';
 import 'package:minimal_weatherapp/style/color_scheme.dart';
+
+import "/style/context_extension.dart";
 import '../services/control.dart';
 import '../style/text_theme.dart';
-import "/style/context_extension.dart";
 
 class SearchPage extends StatefulWidget {
   const SearchPage({Key? key}) : super(key: key);
@@ -51,24 +52,32 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 
-  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme) {
+  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight,
+      ColorSchemeLight colorScheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: context.width2 * 70,
           height: context.mediumContainer,
-          child: textFormField(cityTextController, textThemeLight, colorScheme, context),
+          child: textFormField(
+              cityTextController, textThemeLight, colorScheme, context),
         ),
         SizedBox(
           width: context.lowContainer,
           child: TextButton(
               onPressed: () async {
-                await apiList.apiListFillVoid(cityTextController.text);
-                setState(() {
-                  apiList.imageChangeVoid();
-                  print(apiList.hourlyImageList);
-                });
+                var result =
+                    await apiList.apiListFillVoid(cityTextController.text);
+                cityTextController.clear();
+                if (result == true) {
+                  setState(() {
+                    apiList.imageChangeVoid();
+                    print(apiList.hourlyImageList);
+                  });
+                } else {
+                  // error... what do u wanna do ?
+                }
               },
               child: Icon(
                 Icons.search,
