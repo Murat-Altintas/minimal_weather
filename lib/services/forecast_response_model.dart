@@ -4,11 +4,32 @@ class WeatherResponse {
   Forecast? forecast;
 
   WeatherResponse.fromJson(Map<String, dynamic> json) {
-    location = json['location'] != null ? Location.fromJson(json['location']) : null;
-    current = json['current'] != null ? Current.fromJson(json['current']) : null;
-    forecast = json['forecast'] != null ? Forecast.fromJson(json['forecast']) : null;
+    location =
+        json['location'] != null ? Location.fromJson(json['location']) : null;
+    current =
+        json['current'] != null ? Current.fromJson(json['current']) : null;
+    forecast =
+        json['forecast'] != null ? Forecast.fromJson(json['forecast']) : null;
+  }
+
+  /// FOR UI
+  String get locationName {
+    return location?.name ?? '-';
+  }
+  String get currentTemp {
+    var tempC = current?.tempC;
+    // const STR_TMP = '\u00B0';
+    if(tempC!=null){
+      return '$tempC °';
+    } else{
+      return '-';
+    }
+  }
+  String get conditionText {
+    return current?.condition?.text ?? '-';
   }
 }
+
 
 class Location {
   String? name;
@@ -27,7 +48,9 @@ class Current {
 
   Current.fromJson(Map<String, dynamic> json) {
     tempC = json['temp_c'];
-    condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
+    condition = json['condition'] != null
+        ? Condition.fromJson(json['condition'])
+        : null;
     windMph = json['wind_mph'];
     pressureMb = json['pressure_mb'];
     humidity = json['humidity'];
@@ -84,7 +107,9 @@ class Day {
     mintempC = json['mintemp_c'];
     maxtempC = json['maxtemp_c'];
     maxwindMph = json['maxwind_mph'];
-    condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
+    condition = json['condition'] != null
+        ? Condition.fromJson(json['condition'])
+        : null;
   }
 }
 
@@ -99,7 +124,9 @@ class Hour {
   Hour.fromJson(Map<String, dynamic> json) {
     time = json['time'];
     tempC = json['temp_c'];
-    condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
+    condition = json['condition'] != null
+        ? Condition.fromJson(json['condition'])
+        : null;
     windMph = json['wind_mph'];
     pressureMb = json['pressure_mb'];
     humidity = json['humidity'];

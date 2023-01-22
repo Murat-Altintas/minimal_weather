@@ -3,6 +3,8 @@
 import 'package:minimal_weatherapp/services/api.dart';
 import 'package:intl/intl.dart';
 
+import 'forecast_response_model.dart';
+
 class ApiListFillVoidClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
@@ -24,11 +26,19 @@ class ApiListFillVoidClass {
       conditionList = [];
 
   Map<String, List<dynamic>> showSelectedCountryMap = {};
+  final weatherList = <WeatherResponse>[];
 
-  Future<void> apiListFillVoid(String text) async {
+  /// If API error returns false, otherwise if all OK, return true.
+  Future<bool> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
-    region = response.location!.name!;
+    if(response==null){
+      // error... show something?
+      return false;
+    }
+    /// TODO: @Murat, you SHOULD USE THIS in ur UI, not the rest of the code.
+    weatherList.add(response);
 
+    region = response.location!.name!;
     tempC = response.current!.tempC!;
     conditionText = response.current!.condition!.text!;
     _imageCode = response.current!.condition!.code!;
@@ -77,6 +87,7 @@ class ApiListFillVoidClass {
     for (var element in response.forecast!.forecastday!) {
       nextDaysMaxTempCList.add(element.day!.maxtempC!.ceil());
     }
+    return true;
   }
 
   void imageChangeVoid(
