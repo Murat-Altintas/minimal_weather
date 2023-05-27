@@ -15,9 +15,10 @@ class DataService {
 
     final response = await http.get(uri);
     final json = jsonDecode(response.body);
-    if(json['error'] != null) {
+
+    if (json['error'] != null) {
       print("ERROR: ${json['error']['message']}");
-      return null ;
+      return null;
     } else {
       return WeatherResponse.fromJson(json);
     }

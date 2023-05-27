@@ -5,8 +5,8 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:minimal_weatherapp/search/grid_list_widget.dart';
 import 'package:minimal_weatherapp/search/text_form_field_widget.dart';
+import 'package:minimal_weatherapp/services/forecast_response_model.dart';
 import 'package:minimal_weatherapp/style/color_scheme.dart';
-
 import "/style/context_extension.dart";
 import '../services/control.dart';
 import '../style/text_theme.dart';
@@ -52,31 +52,27 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 
-  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight,
-      ColorSchemeLight colorScheme) {
+  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: context.width2 * 70,
           height: context.mediumContainer,
-          child: textFormField(
-              cityTextController, textThemeLight, colorScheme, context),
+          child: textFormField(cityTextController, textThemeLight, colorScheme, context),
         ),
         SizedBox(
           width: context.lowContainer,
           child: TextButton(
               onPressed: () async {
-                var result =
-                    await apiList.apiListFillVoid(cityTextController.text);
+                var result = await apiList.apiListFillVoid(cityTextController.text);
+                print("SEARCH SEND:");
+                print(apiList.showSelectedCountryMap["nextDaysMaxTempCList"]);
                 cityTextController.clear();
                 if (result == true) {
                   setState(() {
                     apiList.imageChangeVoid();
-                    print(apiList.hourlyImageList);
                   });
-                } else {
-                  // error... what do u wanna do ?
                 }
               },
               child: Icon(

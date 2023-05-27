@@ -31,12 +31,9 @@ class ApiListFillVoidClass {
   /// If API error returns false, otherwise if all OK, return true.
   Future<bool> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
-    if(response==null){
-      // error... show something?
-      return false;
-    }
+
     /// TODO: @Murat, you SHOULD USE THIS in ur UI, not the rest of the code.
-    weatherList.add(response);
+    weatherList.add(response!);
 
     region = response.location!.name!;
     tempC = response.current!.tempC!;
@@ -91,15 +88,7 @@ class ApiListFillVoidClass {
   }
 
   void imageChangeVoid(
-      {incomingRegion,
-      incomingImage,
-      incomingCondition,
-      incomingTempC,
-      incomingHourlyTempC,
-      incomingDayHours,
-      incomingHourlyImages,
-      incomingNextDaysTempC,
-      incomingNextDaysDate}) async {
+      {incomingRegion, incomingImage, incomingCondition, incomingTempC, incomingHourlyTempC, incomingDayHours, incomingHourlyImages, incomingNextDaysTempC, incomingNextDaysDate}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -153,9 +142,6 @@ class ApiListFillVoidClass {
         }
       },
     );
-    if (incomingRegion == "van") {
-      incomingRegion = "van";
-    }
     for (int element in _incomingHourlyImageList) {
       imageListMap.forEach(
         (String key, value) {
@@ -173,7 +159,7 @@ class ApiListFillVoidClass {
     incomingDayHours ??= dayHoursList;
     incomingHourlyTempC ??= hourlyTempCList;
     incomingHourlyImages ??= hourlyImageList;
-    incomingTempC ??= nextDaysMaxTempCList;
+    incomingNextDaysTempC ??= nextDaysMaxTempCList;
     incomingNextDaysDate ??= nextDaysDateList;
 
     regionList.add(incomingRegion);

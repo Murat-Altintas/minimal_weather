@@ -11,15 +11,29 @@ import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 
+var _currentIndex = 0;
+
 class WeatherDetailPage extends StatefulWidget {
   final Map<String, List<dynamic>> incomingSelectedCountryMap;
   final int incomingIndex;
+
   WeatherDetailPage({Key? key, required this.incomingSelectedCountryMap, required this.incomingIndex}) : super(key: key);
+
   @override
   State<WeatherDetailPage> createState() => _WeatherDetailPageState();
 }
 
 class _WeatherDetailPageState extends State<WeatherDetailPage> {
+  @override
+  void initState() {
+    print("GELEN DATAAAAAAAAAA");
+    print(widget.incomingIndex);
+    print(ApiListFillVoidClass().showSelectedCountryMap["nextDaysMaxTempCList"]);
+
+
+
+  }
+
   final apiList = ApiListFillVoidClass();
   final textThemeLight = TextThemeLight.instance!;
   final colorScheme = ColorSchemeLight.instance!;
@@ -33,20 +47,29 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             left: context.width2 * 5,
             right: context.width2 * 5,
           ),
-          /// add stack to add back button.
           child: Stack(
             children: [
               Column(
                 children: [
                   topCountryName(),
+                  topStack(context, widget.incomingIndex),
                   SizedBox(
                     height: context.mediumContainer,
                   ),
-                  //  topStack(context, widget.incomingIndex),
                   bottomCarouselRow(widget.incomingIndex),
                 ],
               ),
-              Align(alignment: Alignment.topLeft,child: BackButton(),),
+              Align(
+                alignment: Alignment.topLeft,
+                child: BackButton(
+                  onPressed: () {
+                    ApiListFillVoidClass().showSelectedCountryMap.clear();
+                    Navigator.of(context).pop();
+                    print("DELETED BACK BUTTON:");
+                    print(ApiListFillVoidClass().showSelectedCountryMap["nextDaysMaxTempCList"]);
+                  },
+                ),
+              ),
             ],
           ),
         ),
@@ -84,18 +107,18 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
               top: context.height2 * 8,
               child: Row(
                 children: [
-                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0",
-                      "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}", "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
+                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0", "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}",
+                      "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
                   SizedBox(
                     width: context.width2 * 4,
                   ),
-                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0",
-                      "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}", "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
+                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0", "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}",
+                      "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
                   SizedBox(
                     width: context.width2 * 4,
                   ),
-                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0",
-                      "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}", "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
+                  bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0", "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}",
+                      "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
                 ],
               ),
             ),
@@ -138,6 +161,12 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             clipBehavior: Clip.none,
             enlargeCenterPage: true,
             aspectRatio: 1,
+            onPageChanged: (index, reason) {
+              print("CAROUSELİN İÇİNDEKİ İNDEX:");
+              print(index);
+              _currentIndex = index;
+              setState(() {});
+            },
           ),
           itemBuilder: (BuildContext context, int incomingIndex, int pageViewIndex) {
             return Builder(
@@ -155,7 +184,7 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
                           style: textThemeLight.subtitle1,
                         )),
                     Positioned(top: context.height2 * 7, child: Text("Sunday ", style: textThemeLight.subtitle3)),
-                    Positioned(top: context.height2 * 9, child: weatherText(context, widget.incomingIndex)),
+                    Positioned(top: context.height2 * 9, child: weatherText(context, _currentIndex)),
                     Positioned(top: context.height2 * 20, child: weatherIcon(context)),
                   ],
                 );
