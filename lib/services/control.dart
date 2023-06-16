@@ -8,7 +8,7 @@ import 'forecast_response_model.dart';
 class ApiListFillVoidClass {
   DataService dataService = DataService();
   String region = "", conditionText = "", imageTop = "";
-  double tempC = 0.0, pressureMb = 0.0, windMph = 0.0;
+  double tempC = 0.0, visibilityMiles = 0.0, windMph = 0.0;
   int _imageCode = 0, humidity = 0;
   List<dynamic> hours = [],
       hourlyTempCList = [],
@@ -34,13 +34,12 @@ class ApiListFillVoidClass {
 
     /// TODO: @Murat, you SHOULD USE THIS in ur UI, not the rest of the code.
     weatherList.add(response!);
-
     region = response.location!.name!;
     tempC = response.current!.tempC!;
     conditionText = response.current!.condition!.text!;
     _imageCode = response.current!.condition!.code!;
     humidity = response.current!.humidity!;
-    pressureMb = response.current!.pressureMb!;
+    visibilityMiles = response.current!.visibility!;
     windMph = response.current!.windMph!;
 
     for (var element in response.forecast!.forecastday![0].hour!) {
@@ -80,20 +79,30 @@ class ApiListFillVoidClass {
     for (var element in response.forecast!.forecastday!) {
       nextDaysMinTempCList.add(element.day!.mintempC);
     }
-
+/*
     for (var element in response.forecast!.forecastday!) {
       nextDaysMaxTempCList.add(element.day!.maxtempC!.ceil());
     }
+  */
+
     return true;
   }
 
   void imageChangeVoid(
-      {incomingRegion, incomingImage, incomingCondition, incomingTempC, incomingHourlyTempC, incomingDayHours, incomingHourlyImages, incomingNextDaysTempC, incomingNextDaysDate}) async {
+      {incomingRegion,
+      incomingImage,
+      incomingCondition,
+      incomingTempC,
+      incomingHourlyTempC,
+      incomingDayHours,
+      incomingHourlyImages,
+      incomingNextDaysTempC,
+      incomingNextDaysDate}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
       "sunny": [1000],
-      "lightcloudy": [1003],
+      "lightCloudy": [1003],
       "mediumRainy": [1066, 1072, 1087, 1168, 1186, 1189, 1192, 1243],
       "heavyRainy": [1171, 1195, 1201, 1273, 1276],
       "fog": [1030, 1135, 1147],
@@ -112,7 +121,7 @@ class ApiListFillVoidClass {
         case "sunny":
           return "assets/images/weather-sunny.png";
 
-        case "lightcloudy":
+        case "lightCloudy":
           return "assets/images/weather-partly-cloudy.png";
 
         case "mediumRainy":
@@ -159,7 +168,7 @@ class ApiListFillVoidClass {
     incomingDayHours ??= dayHoursList;
     incomingHourlyTempC ??= hourlyTempCList;
     incomingHourlyImages ??= hourlyImageList;
-    incomingNextDaysTempC ??= nextDaysMaxTempCList;
+    //incomingNextDaysTempC ??= nextDaysMaxTempCList;
     incomingNextDaysDate ??= nextDaysDateList;
 
     regionList.add(incomingRegion);
@@ -169,7 +178,7 @@ class ApiListFillVoidClass {
     dayHoursList.add(dayHoursList);
     hourlyTempCList.add(incomingHourlyTempC);
     hourlyImageList.add(incomingHourlyImages);
-    nextDaysMaxTempCList.add(incomingNextDaysTempC);
+    //nextDaysMaxTempCList.add(incomingNextDaysTempC);
     nextDaysDateList.add(incomingNextDaysDate);
 
     showSelectedCountryMap = {
@@ -180,7 +189,7 @@ class ApiListFillVoidClass {
       "dayHoursList": dayHoursList,
       "hourlyTempCList": hourlyTempCList,
       "hourlyImageList": hourlyImageList,
-      "nextDaysMaxTempCList": nextDaysMaxTempCList,
+      //"nextDaysMaxTempCList": nextDaysMaxTempCList,
       "nextDaysDateList": nextDaysDateList,
     };
   }

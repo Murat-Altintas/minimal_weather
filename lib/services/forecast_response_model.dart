@@ -41,14 +41,14 @@ class Current {
   double? tempC;
   Condition? condition;
   double? windMph;
-  double? pressureMb;
+  double? visibility;
   int? humidity;
 
   Current.fromJson(Map<String, dynamic> json) {
     tempC = json['temp_c'];
     condition = json['condition'] != null ? Condition.fromJson(json['condition']) : null;
     windMph = json['wind_mph'];
-    pressureMb = json['pressure_mb'];
+    visibility = json['vis_miles'];
     humidity = json['humidity'];
   }
 }

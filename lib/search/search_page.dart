@@ -12,14 +12,14 @@ import '../services/control.dart';
 import '../style/text_theme.dart';
 
 class SearchPage extends StatefulWidget {
-  const SearchPage({Key? key}) : super(key: key);
+ SearchPage({Key? key}) : super(key: key);
+  final cityTextController = TextEditingController();
 
   @override
   State<StatefulWidget> createState() => _SearchPage();
 }
 
 class _SearchPage extends State<SearchPage> {
-  final cityTextController = TextEditingController();
   final apiList = ApiListFillVoidClass();
   final textThemeLight = TextThemeLight.instance!;
   final colorScheme = ColorSchemeLight.instance!;
@@ -52,23 +52,25 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 
-  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme) {
+  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight,
+      ColorSchemeLight colorScheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: context.width2 * 70,
           height: context.mediumContainer,
-          child: textFormField(cityTextController, textThemeLight, colorScheme, context),
+          child: textFormField(
+              widget.cityTextController, textThemeLight, colorScheme, context),
         ),
         SizedBox(
           width: context.lowContainer,
           child: TextButton(
               onPressed: () async {
-                var result = await apiList.apiListFillVoid(cityTextController.text);
-                print("SEARCH SEND:");
-                print(apiList.showSelectedCountryMap["nextDaysMaxTempCList"]);
-                cityTextController.clear();
+                var result =
+                    await apiList.apiListFillVoid(widget.cityTextController.text);
+                print(apiList.visibilityMiles);
+                widget.cityTextController.clear();
                 if (result == true) {
                   setState(() {
                     apiList.imageChangeVoid();
