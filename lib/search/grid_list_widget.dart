@@ -3,17 +3,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:minimal_weatherapp/details/weather_detail_page.dart';
-import 'package:minimal_weatherapp/search/search_page.dart';
 import 'package:minimal_weatherapp/style/text_theme.dart';
 
 import "/style/context_extension.dart";
 import '../services/control.dart';
 
-Expanded listFillWidget(
-    TextThemeLight textThemeLight, ApiListFillVoidClass apiList) {
+Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillVoidClass apiList, textControllerData) {
   final weatherList = apiList.weatherList;
+
   return Expanded(
-    child: SearchPage().cityTextController.value.text != apiList.showSelectedCountryMap["regionList"]
+    child: weatherList.isNotEmpty
         ? GridView.builder(
             itemCount: weatherList.length,
             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
@@ -22,27 +21,32 @@ Expanded listFillWidget(
               mainAxisSpacing: 20,
             ),
             itemBuilder: (context, index) {
+              final model = weatherList[index];
               return InkWell(
                 onTap: () {
+                  /*
                   List<int> newMaxTempCList = [];
-                  for (var element
-                      in weatherList[index].forecast!.forecastday!) {
+                  for (var element in weatherList[index].forecast!.forecastday!) {
                     newMaxTempCList.add(element.day!.maxtempC!.ceil());
                   }
+                   */
 
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => WeatherDetailPage(
-                        incomingSelectedCountryMap:
-                            apiList.showSelectedCountryMap,
+                        incomingSelectedCountryMap: apiList.showSelectedCountryMap,
                         incomingIndex: index,
-                        incomingMaxTempCList: newMaxTempCList,
+                        incomingRegion: model.locationName,
+
+                        //incomingMaxTempCList: newMaxTempCList,
+                        incomingMaxTempCList: model.maxTampC,
+                        incomingWeatherList: weatherList,
                       ),
                     ),
                   );
                   print("Giden DATAAAAAAAAAAAAAAA");
                   print(index);
-                  print(newMaxTempCList);
+                  print(model.maxTampC);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
@@ -67,17 +71,17 @@ Expanded listFillWidget(
                                       height: context.height2 * 10,
                                       child: SingleChildScrollView(
                                         child: Text(
-                                          // model.locationName,
-                                          "${apiList.showSelectedCountryMap["regionList"]![index]}",
+                                          model.locationName,
+                                          //"${apiList.showSelectedCountryMap["regionList"]![index]}",
                                           style: textThemeLight.headline3,
                                         ),
                                       ),
                                     ),
                                   ),
                                   Text(
-                                    //   model.currentTemp,
-                                    "${apiList.showSelectedCountryMap["tempCList"]![index]}"
-                                    "\u00B0",
+                                    model.currentTemp,
+                                    //"${weatherList[index].current!.tempC}" "\u00B0",
+                                    //"${apiList.showSelectedCountryMap["tempCList"]![index]}"
                                     style: textThemeLight.headline3,
                                   ),
                                   SizedBox(
@@ -89,8 +93,8 @@ Expanded listFillWidget(
                                       height: context.height2 * 10,
                                       child: SingleChildScrollView(
                                         child: Text(
-                                          //  model.conditionText,
-                                          "${apiList.showSelectedCountryMap["conditionList"]![index]}",
+                                          model.conditionText,
+                                          //"${weatherList[index].current!.condition!.text!}",
                                           style: textThemeLight.subtitle4,
                                         ),
                                       ),
@@ -107,8 +111,7 @@ Expanded listFillWidget(
                           child: SizedBox(
                             height: context.height2 * 8,
                             child: Image.asset(
-                              apiList
-                                  .showSelectedCountryMap["imageList"]![index],
+                              apiList.showSelectedCountryMap["imageList"]![index],
                             ),
                           ),
                         ),

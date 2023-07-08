@@ -12,7 +12,7 @@ import '../services/control.dart';
 import '../style/text_theme.dart';
 
 class SearchPage extends StatefulWidget {
- SearchPage({Key? key}) : super(key: key);
+  SearchPage({Key? key}) : super(key: key);
   final cityTextController = TextEditingController();
 
   @override
@@ -44,7 +44,7 @@ class _SearchPage extends State<SearchPage> {
               SizedBox(
                 height: context.lowContainer,
               ),
-              listFillWidget(textThemeLight, apiList),
+              listFillWidget(textThemeLight, apiList, widget.cityTextController.text),
             ],
           ),
         ),
@@ -52,26 +52,24 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 
-  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight,
-      ColorSchemeLight colorScheme) {
+  Row searchBarWidget(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         SizedBox(
           width: context.width2 * 70,
           height: context.mediumContainer,
-          child: textFormField(
-              widget.cityTextController, textThemeLight, colorScheme, context),
+          child: textFormField(widget.cityTextController, textThemeLight, colorScheme, context),
         ),
         SizedBox(
           width: context.lowContainer,
           child: TextButton(
               onPressed: () async {
-                var result =
-                    await apiList.apiListFillVoid(widget.cityTextController.text);
-                print(apiList.visibilityMiles);
-                widget.cityTextController.clear();
-                if (result == true) {
+                var result = await apiList.apiListFillVoid(widget.cityTextController.text);
+
+                if (result) {
+                  widget.cityTextController.clear();
+
                   setState(() {
                     apiList.imageChangeVoid();
                   });

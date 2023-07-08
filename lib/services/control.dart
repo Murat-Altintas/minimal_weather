@@ -7,7 +7,7 @@ import 'forecast_response_model.dart';
 
 class ApiListFillVoidClass {
   DataService dataService = DataService();
-  String region = "", conditionText = "", imageTop = "";
+  String region = "", imageTop = "";
   double tempC = 0.0, visibilityMiles = 0.0, windMph = 0.0;
   int _imageCode = 0, humidity = 0;
   List<dynamic> hours = [],
@@ -31,12 +31,21 @@ class ApiListFillVoidClass {
   /// If API error returns false, otherwise if all OK, return true.
   Future<bool> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
+    var isContain = false;
+
+    for (var i in weatherList) {
+      if (response!.location!.name! == i.locationName) {
+        isContain = true;
+      }
+    }
+    if (isContain) {
+      return false;
+    }
 
     /// TODO: @Murat, you SHOULD USE THIS in ur UI, not the rest of the code.
     weatherList.add(response!);
     region = response.location!.name!;
     tempC = response.current!.tempC!;
-    conditionText = response.current!.condition!.text!;
     _imageCode = response.current!.condition!.code!;
     humidity = response.current!.humidity!;
     visibilityMiles = response.current!.visibility!;
@@ -50,6 +59,10 @@ class ApiListFillVoidClass {
 
     for (var element in response.forecast!.forecastday![0].hour!) {
       hourlyTempCList.add(element.tempC);
+    }
+
+    for (var element in response.forecast!.forecastday!) {
+      conditionList.add(element.day!.condition!.text);
     }
 
     for (var element in response.forecast!.forecastday![0].hour!) {
@@ -88,16 +101,7 @@ class ApiListFillVoidClass {
     return true;
   }
 
-  void imageChangeVoid(
-      {incomingRegion,
-      incomingImage,
-      incomingCondition,
-      incomingTempC,
-      incomingHourlyTempC,
-      incomingDayHours,
-      incomingHourlyImages,
-      incomingNextDaysTempC,
-      incomingNextDaysDate}) async {
+  void imageChangeVoid({incomingRegion, incomingImage, incomingTempC, incomingHourlyTempC, incomingDayHours, incomingHourlyImages, incomingNextDaysTempC, incomingNextDaysDate}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],
@@ -164,7 +168,6 @@ class ApiListFillVoidClass {
     incomingRegion ??= region;
     incomingTempC ??= tempC;
     incomingImage ??= imageTop;
-    incomingCondition ??= conditionText;
     incomingDayHours ??= dayHoursList;
     incomingHourlyTempC ??= hourlyTempCList;
     incomingHourlyImages ??= hourlyImageList;
@@ -174,7 +177,6 @@ class ApiListFillVoidClass {
     regionList.add(incomingRegion);
     tempCList.add(incomingTempC);
     imageList.add(imageTop);
-    conditionList.add(incomingCondition);
     dayHoursList.add(dayHoursList);
     hourlyTempCList.add(incomingHourlyTempC);
     hourlyImageList.add(incomingHourlyImages);

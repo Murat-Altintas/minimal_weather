@@ -16,9 +16,9 @@ class WeatherResponse {
 
   String get currentTemp {
     var tempC = current?.tempC;
-    // const STR_TMP = '\u00B0';
+    //const STR_TMP = '\u00B0';
     if (tempC != null) {
-      return '$tempC °';
+      return '$tempC°';
     } else {
       return '-';
     }
@@ -26,6 +26,31 @@ class WeatherResponse {
 
   String get conditionText {
     return current?.condition?.text ?? '-';
+  }
+
+  List<String> get nextDaysDate {
+    List<String> nextDaysDateList = [];
+    for (var element in forecast!.forecastday!) {
+      nextDaysDateList.add(element.date!);
+    }
+    return nextDaysDateList;
+  }
+
+  List<int> get maxTampC {
+    List<int> maxTempCList = [];
+    for (var element in forecast!.forecastday!) {
+      maxTempCList.add(element.day!.maxtempC!.ceil());
+    }
+    return maxTempCList;
+  }
+
+
+  List<String> get condition {
+    List<String> conditionList = [];
+    for (var element in forecast!.forecastday!) {
+      conditionList.add(element.day!.condition!.text!);
+    }
+    return conditionList;
   }
 }
 

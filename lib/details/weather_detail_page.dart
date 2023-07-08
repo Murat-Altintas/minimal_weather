@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
+import 'package:minimal_weatherapp/services/forecast_response_model.dart';
 import 'package:minimal_weatherapp/style/text_theme.dart';
 import '../style/color_scheme.dart';
 import "/style/context_extension.dart";
@@ -17,13 +18,10 @@ class WeatherDetailPage extends StatefulWidget {
   final Map<String, List<dynamic>> incomingSelectedCountryMap;
   final List<dynamic> incomingMaxTempCList;
   final int incomingIndex;
+  final String incomingRegion;
+  final List incomingWeatherList;
 
-  WeatherDetailPage(
-      {Key? key,
-      required this.incomingSelectedCountryMap,
-      required this.incomingIndex,
-      required this.incomingMaxTempCList})
-      : super(key: key);
+  WeatherDetailPage({Key? key, required this.incomingSelectedCountryMap, required this.incomingIndex, required this.incomingMaxTempCList, required this.incomingRegion, required this.incomingWeatherList}) : super(key: key);
 
   @override
   State<WeatherDetailPage> createState() => _WeatherDetailPageState();
@@ -32,7 +30,9 @@ class WeatherDetailPage extends StatefulWidget {
 class _WeatherDetailPageState extends State<WeatherDetailPage> {
   @override
   void initState() {
+    super.initState();
     print("GELEN DATAAAAAAAAAA");
+    print(widget.incomingRegion);
     print(widget.incomingIndex);
     print(widget.incomingMaxTempCList);
   }
@@ -71,7 +71,8 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
     return Container(
       height: 80,
       child: Text(
-        widget.incomingSelectedCountryMap["regionList"]![incomingIndex],
+        widget.incomingRegion,
+        //widget.incomingSelectedCountryMap["regionList"]![incomingIndex],
         style: textThemeLight.headline1,
         textAlign: TextAlign.center,
       ),
@@ -86,23 +87,17 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
         // autoPlay: true,
         autoPlayAnimationDuration: Duration(seconds: 7),
       ),
-      itemBuilder:
-          (BuildContext context, int incomingIndex, int pageViewIndex) {
+      itemBuilder: (BuildContext context, int incomingIndex, int pageViewIndex) {
         return Row(
           children: [
-            bottomCarouselWidget(
-                context,
-                "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0",
-                "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}",
-                "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
+            bottomCarouselWidget(context, "${widget.incomingSelectedCountryMap["hourlyTempCList"]![incomingIndex]}\u00B0", "${widget.incomingSelectedCountryMap["dayHoursList"]![incomingIndex]}", "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
           ],
         );
       },
     );
   }
 
-  ClipRRect bottomCarouselWidget(
-      BuildContext context, String tempC, clock, image) {
+  ClipRRect bottomCarouselWidget(BuildContext context, String tempC, clock, image) {
     return ClipRRect(
       borderRadius: BorderRadius.circular(30),
       child: Container(
@@ -116,16 +111,9 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                Flexible(
-                    flex: 1,
-                    child: Text(tempC, style: textThemeLight.subtitle1)),
-                SizedBox(
-                    height: context.heightContainer,
-                    width: context.mediumContainer,
-                    child: Image.asset(image)),
-                Flexible(
-                    flex: 1,
-                    child: Text(clock, style: textThemeLight.subtitle2)),
+                Flexible(flex: 1, child: Text(tempC, style: textThemeLight.subtitle1)),
+                SizedBox(height: context.heightContainer, width: context.mediumContainer, child: Image.asset(image)),
+                Flexible(flex: 1, child: Text(clock, style: textThemeLight.subtitle2)),
               ],
             ),
           ),
@@ -138,10 +126,7 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
     return Stack(
       clipBehavior: Clip.none,
       children: [
-        Positioned(
-            top: 380,
-            child: centerRow(
-                context, textThemeLight, colorScheme, widget.incomingIndex)),
+        Positioned(top: 380, child: centerRow(context, textThemeLight, colorScheme, widget.incomingIndex)),
         CarouselSlider.builder(
           itemCount: 3,
           options: CarouselOptions(
@@ -153,36 +138,28 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
               setState(() {});
             },
           ),
-          itemBuilder:
-              (BuildContext context, int incomingIndex, int pageViewIndex) {
+          itemBuilder: (BuildContext context, int incomingIndex, int pageViewIndex) {
             return Builder(
               builder: (BuildContext context) {
                 return Stack(
                   alignment: Alignment.center,
                   clipBehavior: Clip.none,
                   children: [
-                    Positioned(
-                        top: context.height2 * 0.9,
-                        child: colorfullBG(context)),
-                    Positioned(
-                        top: -context.height2 * 2, child: whiteBG(context)),
+                    Positioned(top: context.height2 * 0.9, child: colorfullBG(context)),
+                    Positioned(top: -context.height2 * 2, child: whiteBG(context)),
                     Positioned(
                         top: 0,
                         child: Text(
-                          "${widget.incomingSelectedCountryMap["nextDaysDateList"]![incomingIndex]}",
+                          widget.incomingRegion,
+                          //"${widget.incomingSelectedCountryMap["nextDaysDateList"]![incomingIndex]}",
                           style: textThemeLight.subtitle1,
                         )),
                     Positioned(
-                        top: context.height2 * 7,
-                        child: Text(
-                            "${widget.incomingSelectedCountryMap["conditionList"]![incomingIndex]}",
-                            style: textThemeLight.subtitle3)),
-                    Positioned(
-                        top: context.height2 * 9,
-                        child: weatherText(context, _currentIndex)),
-                    Positioned(
-                        top: context.height2 * 20,
-                        child: weatherIcon(context, widget.incomingIndex)),
+                      top: context.height2 * 7,
+                      child: Text("${widget.incomingSelectedCountryMap["conditionList"]![incomingIndex]}", style: textThemeLight.subtitle3),
+                    ),
+                    Positioned(top: context.height2 * 9, child: weatherText(context, _currentIndex)),
+                    Positioned(top: context.height2 * 20, child: weatherIcon(context, widget.incomingIndex)),
                   ],
                 );
               },
@@ -196,8 +173,7 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
   SizedBox weatherIcon(BuildContext context, incomingIndex) {
     return SizedBox(
       height: context.height2 * 23,
-      child: Image.asset(
-          "${widget.incomingSelectedCountryMap["imageList"]![incomingIndex]}"),
+      child: Image.asset("${widget.incomingSelectedCountryMap["imageList"]![incomingIndex]}"),
     );
   }
 
@@ -219,8 +195,7 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
     );
   }
 
-  ClipRRect centerRow(BuildContext context, TextThemeLight textThemeLight,
-      ColorSchemeLight colorScheme, incomingIndex) {
+  ClipRRect centerRow(BuildContext context, TextThemeLight textThemeLight, ColorSchemeLight colorScheme, incomingIndex) {
     return ClipRRect(
       clipBehavior: Clip.none,
       borderRadius: BorderRadius.circular(30),
@@ -243,20 +218,16 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
-                centerRowColumn("${apiList.windMph}", "wind",
-                    FontAwesomeIcons.wind, colorScheme, textThemeLight),
-                centerRowColumn("${apiList.humidity}", "Humidity",
-                    FontAwesomeIcons.droplet, colorScheme, textThemeLight),
-                centerRowColumn("${apiList.visibilityMiles}", "Visibility",
-                    FontAwesomeIcons.eye, colorScheme, textThemeLight),
+                centerRowColumn("${apiList.windMph}", "wind", FontAwesomeIcons.wind, colorScheme, textThemeLight),
+                centerRowColumn("${apiList.humidity}", "Humidity", FontAwesomeIcons.droplet, colorScheme, textThemeLight),
+                centerRowColumn("${apiList.visibilityMiles}", "Visibility", FontAwesomeIcons.eye, colorScheme, textThemeLight),
               ],
             ),
           )),
     );
   }
 
-  Column centerRowColumn(String speed, wind, IconData icon,
-      ColorSchemeLight colorScheme, TextThemeLight textThemeLight) {
+  Column centerRowColumn(String speed, wind, IconData icon, ColorSchemeLight colorScheme, TextThemeLight textThemeLight) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceAround,
