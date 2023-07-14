@@ -1,3 +1,5 @@
+import 'package:intl/intl.dart';
+
 class WeatherResponse {
   Location? location;
   Current? current;
@@ -31,19 +33,12 @@ class WeatherResponse {
   List<String> get nextDaysDate {
     List<String> nextDaysDateList = [];
     for (var element in forecast!.forecastday!) {
-      nextDaysDateList.add(element.date!);
+      var incomingDate = DateTime.parse(element.date!);
+      var convertedDate = DateFormat('EEEE d MMMM').format(incomingDate);
+      nextDaysDateList.add(convertedDate);
     }
     return nextDaysDateList;
   }
-
-  List<int> get maxTampC {
-    List<int> maxTempCList = [];
-    for (var element in forecast!.forecastday!) {
-      maxTempCList.add(element.day!.maxtempC!.ceil());
-    }
-    return maxTempCList;
-  }
-
 
   List<String> get condition {
     List<String> conditionList = [];
@@ -51,6 +46,16 @@ class WeatherResponse {
       conditionList.add(element.day!.condition!.text!);
     }
     return conditionList;
+  }
+
+  List<String> get dayHours  {
+    List<String> dayHoursList = [];
+    for (var element in forecast!.forecastday![0].hour!) {
+      var incomingHours = DateTime.parse(element.time!);
+      var convertedHours = DateFormat('kk:mm').format(incomingHours);
+      dayHoursList.add(convertedHours);
+    }
+    return dayHoursList;
   }
 }
 

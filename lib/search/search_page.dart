@@ -66,10 +66,9 @@ class _SearchPage extends State<SearchPage> {
           child: TextButton(
               onPressed: () async {
                 var result = await apiList.apiListFillVoid(widget.cityTextController.text);
-
+                print(apiList.windMph);
                 if (result) {
                   widget.cityTextController.clear();
-
                   setState(() {
                     apiList.imageChangeVoid();
                   });

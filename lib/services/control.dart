@@ -101,7 +101,7 @@ class ApiListFillVoidClass {
     return true;
   }
 
-  void imageChangeVoid({incomingRegion, incomingImage, incomingTempC, incomingHourlyTempC, incomingDayHours, incomingHourlyImages, incomingNextDaysTempC, incomingNextDaysDate}) async {
+  void imageChangeVoid({incomingDATA, incomingRegion, incomingImage, incomingTempC, incomingHourlyTempC, incomingDayHours, incomingHourlyImages, incomingNextDaysTempC, incomingNextDaysDate}) async {
     Map<String, List<int>> imageListMap = {
       "cloudy": [1006, 1009],
       "lightRainy": [1063, 1150, 1153, 1183, 1198, 1240],

@@ -24,29 +24,20 @@ Expanded listFillWidget(TextThemeLight textThemeLight, ApiListFillVoidClass apiL
               final model = weatherList[index];
               return InkWell(
                 onTap: () {
-                  /*
-                  List<int> newMaxTempCList = [];
-                  for (var element in weatherList[index].forecast!.forecastday!) {
-                    newMaxTempCList.add(element.day!.maxtempC!.ceil());
-                  }
-                   */
-
                   Navigator.of(context).push(
                     MaterialPageRoute(
                       builder: (context) => WeatherDetailPage(
                         incomingSelectedCountryMap: apiList.showSelectedCountryMap,
+                        incomingModel: model,
                         incomingIndex: index,
-                        incomingRegion: model.locationName,
-
-                        //incomingMaxTempCList: newMaxTempCList,
-                        incomingMaxTempCList: model.maxTampC,
+                        incomingCondition: model.condition,
                         incomingWeatherList: weatherList,
                       ),
                     ),
                   );
                   print("Giden DATAAAAAAAAAAAAAAA");
                   print(index);
-                  print(model.maxTampC);
+                  print(model.condition);
                 },
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(30),
