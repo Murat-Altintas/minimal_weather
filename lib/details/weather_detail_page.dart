@@ -17,23 +17,15 @@ var _currentDay = 0;
 class WeatherDetailPage extends StatefulWidget {
   final Map<String, List<dynamic>> incomingSelectedCountryMap;
   final int incomingIndex;
-  final List incomingWeatherList;
-  final List incomingCondition;
   final WeatherResponse incomingModel;
 
-  WeatherDetailPage({Key? key, required this.incomingSelectedCountryMap, required this.incomingIndex, required this.incomingWeatherList, required this.incomingCondition, required this.incomingModel}) : super(key: key);
+  WeatherDetailPage({Key? key, required this.incomingSelectedCountryMap, required this.incomingIndex, required this.incomingModel}) : super(key: key);
 
   @override
   State<WeatherDetailPage> createState() => _WeatherDetailPageState();
 }
 
 class _WeatherDetailPageState extends State<WeatherDetailPage> {
-  @override
-  void initState() {
-    super.initState();
-    print("GELEN DATAAAAAAAAAA");
-  }
-
   final apiList = ApiListFillVoidClass();
   final textThemeLight = TextThemeLight.instance!;
   final colorScheme = ColorSchemeLight.instance!;
@@ -64,8 +56,8 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
     );
   }
 
-  Container topCountryName(incomingIndex) {
-    return Container(
+  SizedBox topCountryName(incomingIndex) {
+    return SizedBox(
       height: 80,
       child: Text(
         widget.incomingModel.locationName,
@@ -133,7 +125,6 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             onPageChanged: (index, reason) {
               setState(() {
                 _currentDay = index;
-                print(_currentDay);
               });
             },
           ),
@@ -181,7 +172,7 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
     return GradientText(
       "${widget.incomingModel.forecast!.forecastday![incomingIndex].day!.maxtempC!.ceil()}\u00B0",
       style: textThemeLight.headline3.copyWith(
-        fontSize: context.height2 * 18,
+        fontSize: context.height2 * 16,
       ),
       gradientDirection: GradientDirection.ttb,
       radius: 2.4,
