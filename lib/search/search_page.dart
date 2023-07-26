@@ -46,98 +46,7 @@ class _SearchPage extends State<SearchPage> {
               SizedBox(
                 height: context.lowContainer,
               ),
-              Expanded(
-                child: widget.clearList != true
-                    ? const Text("Write a Location or Country Name")
-                    : GridView.builder(
-                        itemCount: apiList.weatherList.length,
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2,
-                          crossAxisSpacing: 20,
-                          mainAxisSpacing: 20,
-                        ),
-                        itemBuilder: (context, index) {
-                          final model = apiList.weatherList[index];
-                          return InkWell(
-                            onTap: () {
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => WeatherDetailPage(
-                                    incomingSelectedCountryMap: apiList.showSelectedCountryMap,
-                                    incomingModel: model,
-                                    incomingIndex: index,
-                                  ),
-                                ),
-                              );
-                            },
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(30),
-                              child: SizedBox(
-                                height: context.height2 * 4,
-                                child: Stack(
-                                  children: [
-                                    SvgPicture.asset("assets/bg.svg"),
-                                    Padding(
-                                      padding: EdgeInsets.only(left: context.width2 * 4),
-                                      child: Row(
-                                        children: [
-                                          Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              SizedBox(
-                                                height: context.lowestContainer,
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: context.width2 * 35,
-                                                  height: context.height2 * 10,
-                                                  child: SingleChildScrollView(
-                                                    child: Text(
-                                                      model.locationName,
-                                                      style: textThemeLight.headline3,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                              Text(
-                                                model.currentTemp,
-                                                style: textThemeLight.headline3,
-                                              ),
-                                              SizedBox(
-                                                height: context.lowestContainer,
-                                              ),
-                                              Expanded(
-                                                child: SizedBox(
-                                                  width: context.width2 * 20,
-                                                  height: context.height2 * 10,
-                                                  child: SingleChildScrollView(
-                                                    child: Text(
-                                                      model.conditionText,
-                                                      style: textThemeLight.subtitle4,
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Positioned(
-                                      left: context.width2 * 22,
-                                      top: context.height2 * 10,
-                                      child: SizedBox(
-                                        height: context.height2 * 8,
-                                        child: Image.asset(apiList.showSelectedCountryMap["imageList"]![index]),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          );
-                        }),
-              ),
+              CountryList(widget: widget, apiList: apiList, textThemeLight: textThemeLight),
 
               //CountryList(clearList: widget.clearList, apiList: apiList),
               //listFillWidget(textThemeLight, apiList, widget.clearList),
@@ -166,6 +75,7 @@ class _SearchPage extends State<SearchPage> {
                   setState(() {
                     widget.clearList = true;
                     widget.cityTextController.clear();
+
                     apiList.imageChangeVoid();
                   });
                   print("search");
@@ -197,3 +107,5 @@ class _SearchPage extends State<SearchPage> {
     );
   }
 }
+
+

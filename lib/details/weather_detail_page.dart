@@ -19,6 +19,7 @@ class WeatherDetailPage extends StatefulWidget {
   final int incomingIndex;
   final WeatherResponse incomingModel;
 
+
   WeatherDetailPage({Key? key, required this.incomingSelectedCountryMap, required this.incomingIndex, required this.incomingModel}) : super(key: key);
 
   @override
@@ -33,27 +34,22 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: EdgeInsets.only(
-            left: context.width2 * 5,
-            right: context.width2 * 5,
+      resizeToAvoidBottomInset: false,
+        body: SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              left: context.width2 * 5,
+              right: context.width2 * 5,
+            ),
+            child: Column(
+              children: [
+                topCountryName(widget.incomingIndex),
+                topStack(context),
+                bottomCarouselRow(widget.incomingIndex),
+              ],
+            ),
           ),
-          child: Stack(
-            children: [
-              Column(
-                children: [
-                  topCountryName(widget.incomingIndex),
-                  topStack(context),
-                  Spacer(),
-                  bottomCarouselRow(widget.incomingIndex),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
+        ));
   }
 
   SizedBox topCountryName(incomingIndex) {
@@ -75,14 +71,13 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
         enableInfiniteScroll: true,
         viewportFraction: 0.25,
         autoPlay: true,
+        autoPlayInterval: Duration(seconds: 1),
         autoPlayAnimationDuration: Duration(seconds: 7),
       ),
       itemBuilder: (BuildContext context, int index, int bottomIndex) {
         return Row(
           children: [
-            bottomCarouselWidget(context, "${widget.incomingModel.forecast!.forecastday![_currentDay].hour![index].tempC}\u00B0",
-                widget.incomingModel.dayHours[index],
-                "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
+            bottomCarouselWidget(context, "${widget.incomingModel.forecast!.forecastday![_currentDay].hour![index].tempC}\u00B0", widget.incomingModel.dayHours[index], "${widget.incomingSelectedCountryMap["hourlyImageList"]![incomingIndex]}"),
           ],
         );
       },
@@ -98,24 +93,24 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
         height: context.height2 * 15,
         child: Padding(
           padding: const EdgeInsets.all(8),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              Text(tempC, style: textThemeLight.subtitle1),
-              SizedBox(height: context.heightContainer, width: context.mediumContainer, child: Image.asset(image)),
-              Text(clock, style: textThemeLight.subtitle2),
-            ],
+          child: FittedBox(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                Text(tempC, style: textThemeLight.subtitle1),
+                SizedBox(height: context.heightContainer, width: context.mediumContainer, child: Image.asset(image)),
+                Text(clock, style: textThemeLight.subtitle2),
+              ],
+            ),
           ),
         ),
       ),
     );
   }
 
-  Stack topStack(BuildContext context) {
-    return Stack(
-      clipBehavior: Clip.none,
+  Column topStack(BuildContext context) {
+    return Column(
       children: [
-        Positioned(top: 380, child: centerRow(context, textThemeLight, colorScheme)),
         CarouselSlider.builder(
           itemCount: 3,
           options: CarouselOptions(
@@ -155,11 +150,12 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
             );
           },
         ),
+
+        centerRow(context, textThemeLight, colorScheme),
       ],
     );
   }
 
-//TODO: CHECK THIS!!!
 
   SizedBox weatherIcon(BuildContext context, incomingIndex) {
     return SizedBox(
@@ -170,7 +166,8 @@ class _WeatherDetailPageState extends State<WeatherDetailPage> {
 
   GradientText weatherText(BuildContext context, incomingIndex) {
     return GradientText(
-      "${widget.incomingModel.forecast!.forecastday![incomingIndex].day!.maxtempC!.ceil()}\u00B0",
+      "${widget.incomingModel.forecast!.forecastday![incomingIndex].day!.avgtempc!.ceil()}\u00B0",
+
       style: textThemeLight.headline3.copyWith(
         fontSize: context.height2 * 16,
       ),
