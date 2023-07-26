@@ -1,7 +1,6 @@
 // ignore_for_file: prefer_final_fields
 
 import 'package:minimal_weatherapp/services/api.dart';
-import 'package:intl/intl.dart';
 
 import 'forecast_response_model.dart';
 
@@ -28,7 +27,6 @@ class ApiListFillVoidClass {
   Map<String, List<dynamic>> showSelectedCountryMap = {};
   final weatherList = <WeatherResponse>[];
 
-  /// If API error returns false, otherwise if all OK, return true.
   Future<bool> apiListFillVoid(String text) async {
     final response = await dataService.getWeather(text);
     var isContain = false;
@@ -42,7 +40,6 @@ class ApiListFillVoidClass {
       return false;
     }
 
-    /// TODO: @Murat, you SHOULD USE THIS in ur UI, not the rest of the code.
     weatherList.add(response!);
     region = response.location!.name!;
     tempC = response.current!.tempC!;
@@ -52,47 +49,9 @@ class ApiListFillVoidClass {
     windMph = response.current!.windMph!;
 
     for (var element in response.forecast!.forecastday![0].hour!) {
-      var incomingDate = DateTime.parse(element.time!);
-      var convertedDate = DateFormat('hh a').format(incomingDate);
-      hours.add(convertedDate);
-    }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyTempCList.add(element.tempC);
-    }
-
-    for (var element in response.forecast!.forecastday!) {
-      conditionList.add(element.day!.condition!.text);
-    }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
       _incomingHourlyImageList.add(element.condition!.code);
     }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyHumidityList.add(element.humidity);
-    }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
-      var incomingHours = DateTime.parse(element.time!);
-      var convertedHours = DateFormat('kk:mm').format(incomingHours);
-      dayHoursList.add(convertedHours);
-    }
-
-    for (var element in response.forecast!.forecastday![0].hour!) {
-      hourlyPressureMbList.add(element.pressureMb);
-    }
-
-    for (var element in response.forecast!.forecastday!) {
-      var incomingDate = DateTime.parse(element.date!);
-      var convertedDate = DateFormat('EEEE d MMMM').format(incomingDate);
-      nextDaysDateList.add(convertedDate);
-    }
-
-    for (var element in response.forecast!.forecastday!) {
-      nextDaysMinTempCList.add(element.day!.mintempC);
-    }
-/*
+    /*
     for (var element in response.forecast!.forecastday!) {
       nextDaysMaxTempCList.add(element.day!.maxtempC!.ceil());
     }
@@ -171,7 +130,6 @@ class ApiListFillVoidClass {
     incomingDayHours ??= dayHoursList;
     incomingHourlyTempC ??= hourlyTempCList;
     incomingHourlyImages ??= hourlyImageList;
-    //incomingNextDaysTempC ??= nextDaysMaxTempCList;
     incomingNextDaysDate ??= nextDaysDateList;
 
     regionList.add(incomingRegion);
@@ -180,7 +138,6 @@ class ApiListFillVoidClass {
     dayHoursList.add(dayHoursList);
     hourlyTempCList.add(incomingHourlyTempC);
     hourlyImageList.add(incomingHourlyImages);
-    //nextDaysMaxTempCList.add(incomingNextDaysTempC);
     nextDaysDateList.add(incomingNextDaysDate);
 
     showSelectedCountryMap = {
@@ -191,7 +148,6 @@ class ApiListFillVoidClass {
       "dayHoursList": dayHoursList,
       "hourlyTempCList": hourlyTempCList,
       "hourlyImageList": hourlyImageList,
-      //"nextDaysMaxTempCList": nextDaysMaxTempCList,
       "nextDaysDateList": nextDaysDateList,
     };
   }
