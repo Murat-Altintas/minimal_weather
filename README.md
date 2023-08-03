@@ -1,16 +1,11 @@
-# minimal_weatherapp
+# Minimal Weather
 
-A new Flutter project.
+U can see the weather with country and province name and those with today and with next 2 days with details of 24h.
+Apı is: https://www.weatherapi.com/
 
-## Getting Started
 
-This project is a starting point for a Flutter application.
-
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+![Screenshot_20230724_125732](https://github.com/Murat-Altintas/minimal_weather/assets/28231933/aff43447-083a-463b-a327-4ba440b9ea21)
+![Screenshot_20230724_125753](https://github.com/Murat-Altintas/minimal_weather/assets/28231933/f97c45ca-2d2a-47ba-9cd9-63b8bc4c7028)
+![Screenshot_20230724_130850](https://github.com/Murat-Altintas/minimal_weather/assets/28231933/a8be60df-1f7c-479c-b1db-3934f37bc377)
+![Screenshot_20230724_125801](https://github.com/Murat-Altintas/minimal_weather/assets/28231933/6fdaf7d1-3f54-4981-95f9-686d1510f53a)
+![Screenshot_20230724_130859](https://github.com/Murat-Altintas/minimal_weather/assets/28231933/7be86454-47b7-487f-916a-f0db64adb02f)
